@@ -1,0 +1,956 @@
+/* ═══════════════════════════════════════════════════════════════
+   WONDER FIX — folha de estilo única
+   Paleta tirada direto da logo: navy, azul royal, off-white, kraft.
+   Kraft (papelão) é o acento quente — é o que tira a cara de "template azul".
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --navy:        #0E1E3F;
+  --navy-deep:   #08132B;
+  --blue:        #1D4ED8;
+  --blue-soft:   #3B6FE0;
+  --paper:       #EFEDE7;
+  --paper-warm:  #E3DFD5;
+  --kraft:       #C58A4E;
+  --ink:         #0B1220;
+
+  --fg:          var(--paper);
+  --bg:          var(--navy-deep);
+
+  --f-display: "Archivo", system-ui, sans-serif;
+  --f-body:    "Inter", system-ui, sans-serif;
+
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.07'/%3E%3C/svg%3E");
+
+  --pad: clamp(1.25rem, 5vw, 5.5rem);
+  --gut: clamp(1rem, 2.5vw, 2rem);
+
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: auto; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--f-body);
+  font-size: clamp(.95rem, .3vw + .88rem, 1.05rem);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Grão — a textura que mata o "plástico" de site gerado.
+   ATENÇÃO ao histórico aqui: isto já foi uma camada fixed cobrindo a tela e
+   animada. Custava 8 FPS e um quarto dos frames do scroll: o compositor tinha
+   que refazer a camada inteira contra todo o conteúdo que se movia por baixo.
+   Agora o grão é background das seções — pintado uma vez, cacheado, custo zero
+   durante o scroll. A opacidade vem dentro do próprio SVG. */
+.stats, .about, .products, .process, .sectors, .quote, .cta, .footer {
+  background-image: var(--grain);
+}
+
+img, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--kraft); outline-offset: 3px; }
+::selection { background: var(--kraft); color: var(--navy-deep); }
+
+/* ── TIPOGRAFIA ─────────────────────────────────────────────── */
+.h2, .hero__title, .cta__title, blockquote {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 88%;
+  line-height: .95;
+  letter-spacing: -.025em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: break-word;   /* palavra longa quebra em vez de estourar o mobile */
+}
+
+.hero__title { font-size: clamp(2.4rem, 6.4vw, 6.6rem); }
+.h2          { font-size: clamp(1.9rem, 4.6vw, 4.4rem); }
+.h2--sm      { font-size: clamp(1.7rem, 3vw, 3rem); }
+
+/* O itálico serifado quebra o bloco pesado — assinatura visual, não enfeite. */
+em {
+  font-style: italic;
+  font-weight: 500;
+  font-stretch: 100%;
+  color: var(--kraft);
+  text-transform: none;
+  letter-spacing: -.01em;
+}
+
+/* Máscaras do split de texto (criadas em main.js).
+   O overflow:hidden é o que faz a palavra "subir por baixo da linha" — mas ele
+   cortava acento, cedilha e as pontas inclinadas do itálico. O padding abre
+   espaço para essas sobras e a margem negativa devolve o espaçamento original,
+   então o clipe continua funcionando sem comer letra. */
+.w-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: .24em .16em .22em;
+  margin: -.24em -.16em -.22em;
+}
+/* Sem will-change aqui de propósito: são centenas de palavras no site, e cada
+   uma viraria uma camada permanente na GPU. O GSAP já promove o elemento
+   enquanto o tween roda e o libera ao terminar — que é exatamente o desejado. */
+.w-in { display: inline-block; }
+/* Usado só no modo letra-a-letra: mantém a palavra inteira na mesma linha. */
+.w-word { display: inline-block; white-space: nowrap; }
+
+/* ── PROGRESSO DA LEITURA ───────────────────────────────────── */
+.progress {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 950;
+  width: 100%;
+  height: 2px;
+  background: var(--kraft);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--paper) 62%, transparent);
+}
+.dot {
+  width: 6px; height: 6px;
+  background: var(--kraft);
+  border-radius: 50%;
+  animation: pulse 2.4s var(--ease) infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1) }
+  50%     { opacity: .35; transform: scale(.7) }
+}
+
+.section__head {
+  padding: clamp(4.5rem, 10vw, 9rem) var(--pad) clamp(2rem, 4vw, 3.5rem);
+  display: grid;
+  gap: 1.5rem;
+  max-width: 1100px;
+}
+
+/* ── PLACEHOLDERS ───────────────────────────────────────────────
+   Propositalmente visíveis. Cada bloco diz qual mídia real entra ali.
+   Trocar por <img>/<video> e apagar a div.                        */
+.ph {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  background:
+    repeating-linear-gradient(-45deg,
+      transparent 0 14px,
+      color-mix(in srgb, var(--paper) 5%, transparent) 14px 15px),
+    color-mix(in srgb, var(--navy) 70%, black);
+  border: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.ph::after {
+  content: attr(data-ph);
+  font-family: var(--f-body);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--kraft) 85%, white);
+  text-align: center;
+  padding: .55rem .9rem;
+  border: 1px dashed color-mix(in srgb, var(--kraft) 55%, transparent);
+  max-width: 80%;
+}
+.ph--video  { min-height: 100%; border: 0; }
+.ph--avatar { width: 52px; height: 52px; min-height: 0; border-radius: 50%; }
+.ph--avatar::after { font-size: .5rem; border: 0; padding: 0; }
+
+/* ── MARCA ──────────────────────────────────────────────────────
+   Em fundo escuro entra logo-symbol-light.png (contorno em papel,
+   azul clareado). Em fundo claro, a logo original completa.        */
+.nav__mark, .preloader__mark {
+  width: auto;
+  height: 40px;
+  flex: 0 0 auto;
+}
+.preloader__mark { height: clamp(48px, 8vw, 70px); }
+
+/* ── BOTÕES ─────────────────────────────────────────────────── */
+.btn {
+  --b: var(--paper);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .95rem 1.6rem;
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border: 1px solid var(--b);
+  border-radius: 0;              /* cantos retos = industrial. Nada de pill. */
+  overflow: hidden;
+  cursor: pointer;
+  background: none;
+  color: var(--b);
+  font-family: var(--f-body);
+  transition: color .45s var(--ease);
+  will-change: transform;
+}
+.btn span { position: relative; z-index: 1; }
+/* Preenchimento que sobe de baixo — clássico de estúdio, não de template. */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--b);
+  transform: translateY(101%);
+  transition: transform .5s var(--ease);
+}
+.btn:hover::before { transform: translateY(0); }
+.btn:hover { color: var(--navy-deep); }
+
+.btn--solid { --b: var(--kraft); background: var(--kraft); color: var(--navy-deep); }
+.btn--solid::before { background: var(--paper); }
+.btn--solid:hover { color: var(--navy-deep); }
+.btn--nav { padding: .7rem 1.15rem; font-size: .68rem; }
+.btn--ghost { border-color: color-mix(in srgb, var(--paper) 30%, transparent); }
+.btn--full { width: 100%; grid-column: 1 / -1; }
+
+/* ── PRELOADER ──────────────────────────────────────────────── */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--navy-deep);
+  display: grid;
+  place-items: center;
+}
+.preloader__inner {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  letter-spacing: -.02em;
+}
+.preloader__word  { font-size: clamp(1.6rem, 5vw, 3.4rem); }
+.preloader__count {
+  font-size: clamp(1.6rem, 5vw, 3.4rem);
+  color: var(--kraft);
+  font-variant-numeric: tabular-nums;
+}
+.preloader__bar {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--kraft);
+}
+
+/* ── NAV ────────────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.1rem var(--pad);
+  transition: background .5s var(--ease), padding .5s var(--ease);
+}
+.nav.is-stuck {
+  /* Sem backdrop-filter: ele obriga o navegador a reamostrar tudo que passa por
+     baixo da barra a cada frame do scroll. Cor sólida com leve transparência dá
+     o mesmo resultado visual de graça. */
+  background: color-mix(in srgb, var(--navy-deep) 96%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--paper) 8%, transparent);
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+}
+.nav__logo { display: flex; align-items: center; gap: .7rem; }
+.nav__name {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 82%;
+  letter-spacing: .04em;
+  font-size: .95rem;
+}
+.nav__links { display: flex; gap: 1.8rem; }
+.nav__links a {
+  position: relative;
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--paper) 72%, transparent);
+  transition: color .3s;
+}
+.nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -5px;
+  width: 100%; height: 1px;
+  background: var(--kraft);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .45s var(--ease);
+}
+.nav__links a:hover { color: var(--paper); }
+.nav__links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: .4rem;
+}
+.nav__burger span {
+  width: 24px; height: 2px;
+  background: var(--paper);
+  transition: transform .4s var(--ease);
+}
+.nav.is-open .nav__burger span:first-child { transform: translateY(3.5px) rotate(45deg) }
+.nav.is-open .nav__burger span:last-child  { transform: translateY(-3.5px) rotate(-45deg) }
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 890;
+  background: var(--navy);
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+  padding: var(--pad);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path .7s var(--ease);
+}
+.menu.is-open { clip-path: inset(0 0 0 0); }
+.menu a {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  font-size: clamp(1.8rem, 8vw, 3rem);
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+/* ── HERO ───────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 8rem var(--pad) 2.5rem;
+  overflow: hidden;
+}
+.hero__media { position: absolute; inset: 0; z-index: -1; background: var(--navy-deep); }
+
+/* A dessaturação e o tom azul da marca estão GRAVADOS no arquivo de vídeo
+   (ver scripts de encode no README). Antes isso era feito aqui com filter +
+   mix-blend-mode, e o navegador reprocessava o vídeo inteiro 25 vezes por
+   segundo — era a maior fonte de travamento do site. Agora custa zero. */
+.hero__video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* Grade técnica sobre o vídeo — referência a planta de fábrica. */
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--paper) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--paper) 4%, transparent) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--navy-deep) 78%, transparent) 0%,
+      color-mix(in srgb, var(--navy-deep) 45%, transparent) 35%,
+      var(--navy-deep) 100%);
+}
+.hero__content { max-width: 1500px; }
+.hero__title { margin: 1.5rem 0 clamp(2rem, 5vw, 4rem); max-width: 15ch; }
+.hero__foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 2.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--paper) 14%, transparent);
+  padding-top: 1.8rem;
+}
+.hero__lead {
+  max-width: 46ch;
+  color: color-mix(in srgb, var(--paper) 76%, transparent);
+}
+.hero__actions { display: flex; gap: .8rem; flex-wrap: wrap; }
+
+.hero__scroll {
+  position: absolute;
+  right: var(--pad);
+  top: 50%;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  font-size: .65rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  color: color-mix(in srgb, var(--paper) 45%, transparent);
+}
+.hero__scrollbar { width: 1px; height: 60px; background: color-mix(in srgb, var(--paper) 20%, transparent); overflow: hidden; }
+.hero__scrollbar i { display: block; width: 100%; height: 40%; background: var(--kraft); animation: drop 2s var(--ease) infinite; }
+@keyframes drop { 0% { transform: translateY(-100%) } 100% { transform: translateY(250%) } }
+
+/* ── NÚMEROS ────────────────────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--navy);
+  border-top: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
+}
+.stat {
+  padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1rem, 2.5vw, 2.5rem);
+  border-right: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
+}
+.stat:last-child { border-right: 0; }
+.stat__n {
+  display: block;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 82%;
+  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+  line-height: 1;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: .8rem;
+}
+.stat__n i { font-style: normal; font-size: .42em; color: var(--kraft); margin-left: .1em; }
+.stat__l {
+  font-size: .82rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--paper) 55%, transparent);
+}
+
+/* ── EMPRESA · MANIFESTO ────────────────────────────────────────
+   Escura de propósito. Antes eram dois beges colados (empresa + produtos) e a
+   seção não tinha borda: este bloco agora separa os dois e vira uma pausa. */
+.about {
+  padding: clamp(5rem, 11vw, 10rem) var(--pad);
+  background: var(--navy-deep);
+  color: var(--fg);
+  border-top: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
+}
+.about__head { display: grid; gap: 1.6rem; }
+
+/* A frase é o assunto. Um degrau acima do resto dos títulos do site. */
+.about__claim {
+  max-width: 19ch;
+  font-size: clamp(2.1rem, 5.2vw, 5rem);
+}
+
+/* Texto e selo, separados por um filete kraft: o que vem abaixo dele se lê
+   como assinatura da frase acima, não como um parágrafo solto. */
+.about__story {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid color-mix(in srgb, var(--kraft) 45%, transparent);
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+.about__text { display: grid; gap: 1.3rem; max-width: 60ch; }
+.about__text p { color: color-mix(in srgb, var(--paper) 66%, transparent); }
+.about__text b { color: var(--paper); font-weight: 600; }
+
+.about__sign {
+  display: grid;
+  gap: 1.1rem;
+  justify-items: start;
+  justify-self: end;
+  padding-left: clamp(0rem, 2vw, 2rem);
+  border-left: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  padding-block: .2rem;
+}
+.about__seal { width: auto; height: clamp(46px, 5vw, 62px); opacity: .95; }
+.about__sign figcaption { display: grid; gap: .35rem; }
+.about__sign b {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 82%;
+  font-size: .95rem;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+.about__sign span {
+  font-size: .8rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--paper) 50%, transparent);
+}
+
+/* Trilho de três: os pilares fecham a seção em largura cheia. O filete kraft
+   corre no topo de cada um no hover — o mesmo gesto da fita sendo puxada. */
+.about__pillars {
+  list-style: none;
+  margin-top: clamp(3rem, 7vw, 6rem);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+.about__pillars li {
+  position: relative;
+  display: grid;
+  gap: .7rem;
+  align-content: start;
+  padding-top: 1.6rem;
+  border-top: 1px solid color-mix(in srgb, var(--paper) 18%, transparent);
+}
+.about__pillars li::before {
+  content: "";
+  position: absolute;
+  inset: -1px 0 auto 0;
+  height: 1px;
+  background: var(--kraft);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .6s var(--ease);
+}
+.about__pillars li:hover::before { transform: scaleX(1); }
+.about__pn {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: .75rem;
+  letter-spacing: .06em;
+  color: var(--kraft);
+}
+.about__pillars h3 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 88%;
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+  letter-spacing: -.01em;
+}
+.about__pillars p {
+  font-size: .88rem;
+  line-height: 1.55;
+  max-width: 32ch;
+  color: color-mix(in srgb, var(--paper) 55%, transparent);
+}
+
+/* ── PRODUTOS ───────────────────────────────────────────────── */
+.products { background: var(--paper); color: var(--ink); padding-bottom: clamp(5rem, 10vw, 9rem); }
+.products .eyebrow { color: color-mix(in srgb, var(--ink) 55%, transparent); }
+
+/* Grid deliberadamente assimétrico. Três cards iguais = cara de IA. */
+.products__grid {
+  padding: 0 var(--pad);
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--gut);
+  perspective: 1200px;   /* dá volume à inclinação dos cards no hover */
+}
+.card {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+}
+
+.card__media { overflow: hidden; margin-bottom: 1.2rem; background: var(--navy); }
+/* 116%, não 100%: o parallax do main.js sobe a imagem em yPercent -8 enquanto a
+   página rola. Com a imagem do tamanho exato do quadro, esses 8% descobriam o
+   fundo navy do .card__media — uma faixa azul aparecia sob a foto. A folga é o
+   que a deriva consome. Se mexer no -8 lá, mexa aqui também. */
+.card__media img {
+  width: 100%;
+  height: 116%;
+  object-fit: cover;
+}
+/* Quadrado: é a proporção que respeita as fotos sem cortar nem inventar fundo. */
+.card .card__media { aspect-ratio: 1 / 1; }
+/* O zoom da imagem no hover é feito no GSAP (main.js): o parallax de scroll já
+   escreve transform inline neste elemento, e um transform vindo do CSS seria
+   ignorado. Manter tudo num só lugar evita a briga. */
+
+.card__idx {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  color: var(--blue);
+  display: block;
+  margin-bottom: .5rem;
+}
+.card__info h3 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 90%;
+  font-size: clamp(1.05rem, 1.6vw, 1.45rem);
+  letter-spacing: -.01em;
+  margin-bottom: .4rem;
+}
+.card__info p { font-size: .88rem; color: color-mix(in srgb, var(--ink) 65%, transparent); max-width: 42ch; }
+
+.spec { display: flex; flex-wrap: wrap; gap: 0 2.2rem; margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); }
+.spec dt { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--ink) 45%, transparent); margin-bottom: .15rem; }
+.spec dd { font-family: var(--f-display); font-weight: 700; font-size: .95rem; }
+
+/* ── PROCESSO ───────────────────────────────────────────────────
+   Já foi um pin com scroll horizontal. Saiu: sequestrava a rolagem,
+   escondia o quarto card e não dava para ver os passos direito.
+   Agora é o que é: título em cima, os quatro passos embaixo, todos
+   visíveis de uma vez. Legibilidade ganha de efeito.               */
+.process {
+  background: var(--navy-deep);
+  padding: clamp(5rem, 11vw, 9rem) var(--pad);
+}
+.process__inner { display: grid; gap: clamp(3rem, 6vw, 4.5rem); }
+
+.process__intro {
+  display: grid;
+  gap: 1.4rem;
+  justify-items: center;
+  text-align: center;
+  max-width: 34ch;
+  margin: 0 auto;
+}
+
+.process__track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gut);
+  align-items: stretch;
+}
+
+.step {
+  padding: 2rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  background: color-mix(in srgb, var(--navy) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  border-top: 2px solid color-mix(in srgb, var(--paper) 20%, transparent);
+  transition: background .5s var(--ease), border-color .5s var(--ease);
+}
+.step__n {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--paper) 28%, transparent);
+  transition: color .5s var(--ease);
+}
+.step h3 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 90%;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  letter-spacing: -.01em;
+}
+/* 82% de opacidade: legível em qualquer estado. Nunca abaixe isso. */
+.step p {
+  font-size: .88rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--paper) 82%, transparent);
+  margin-bottom: auto;
+}
+.step footer {
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  font-size: .74rem;
+  letter-spacing: .04em;
+  color: color-mix(in srgb, var(--kraft) 90%, white);
+}
+
+/* Destaque no hover. Nunca apagando os vizinhos — foi o que tornou esta
+   seção ilegível na versão anterior. */
+.step:hover {
+  background: color-mix(in srgb, var(--navy) 95%, transparent);
+  border-color: color-mix(in srgb, var(--kraft) 55%, transparent);
+  border-top-color: var(--kraft);
+}
+.step:hover .step__n { color: var(--kraft); }
+
+/* ── SEGMENTOS ──────────────────────────────────────────────── */
+.sectors { background: var(--navy-deep); padding-bottom: clamp(4rem, 9vw, 8rem); }
+.sectors__list { list-style: none; padding: 0 var(--pad); }
+.sectors__list li {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: clamp(1.1rem, 2.2vw, 1.7rem) 0;
+  border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 90%;
+  text-transform: uppercase;
+  font-size: clamp(1.1rem, 2.6vw, 2rem);
+  letter-spacing: -.01em;
+  cursor: default;
+  transition: color .4s var(--ease), padding-left .5s var(--ease);
+}
+.sectors__list li:last-child { border-bottom: 1px solid color-mix(in srgb, var(--paper) 12%, transparent); }
+.sectors__list li span {
+  font-size: .7rem;
+  font-weight: 800;
+  color: var(--blue-soft);
+  letter-spacing: .1em;
+}
+.sectors__list li:hover { color: var(--kraft); padding-left: 1.2rem; }
+
+/* ── DEPOIMENTO ─────────────────────────────────────────────── */
+.quote {
+  background: var(--blue);
+  color: var(--paper);
+  padding: clamp(5rem, 11vw, 9rem) var(--pad);
+  display: grid;
+  gap: 2.5rem;
+  place-items: start;
+}
+.quote blockquote {
+  font-size: clamp(1.5rem, 3.6vw, 3.2rem);
+  max-width: 20ch;
+  text-transform: none;
+  letter-spacing: -.02em;
+  line-height: 1.05;
+}
+.quote em { color: var(--navy-deep); }
+.quote figcaption { display: flex; align-items: center; gap: 1rem; }
+.quote figcaption b { display: block; font-size: .92rem; }
+.quote figcaption span { font-size: .78rem; color: color-mix(in srgb, var(--paper) 70%, transparent); }
+
+/* ── CTA / FORM ─────────────────────────────────────────────── */
+.cta {
+  background: var(--paper);
+  color: var(--ink);
+  padding: clamp(5rem, 11vw, 10rem) var(--pad);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 7vw, 7rem);
+  align-items: start;
+}
+.cta__title { font-size: clamp(2.2rem, 5.5vw, 5rem); }
+.cta__lead { margin: 1.8rem 0; max-width: 40ch; color: color-mix(in srgb, var(--ink) 70%, transparent); }
+.cta__direct { display: grid; gap: .5rem; font-size: .92rem; }
+.cta__wa { font-weight: 600; color: var(--blue); }
+.cta__wa:hover { color: var(--kraft); }
+
+.form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field { position: relative; }
+.field--full { grid-column: 1 / -1; }
+.field input, .field textarea {
+  width: 100%;
+  padding: 1.5rem 0 .7rem;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  background: none;
+  font-family: var(--f-body);
+  font-size: .95rem;
+  color: var(--ink);
+  resize: none;
+  transition: border-color .4s var(--ease);
+}
+.field label {
+  position: absolute;
+  left: 0;
+  top: 1.35rem;
+  font-size: .95rem;
+  color: color-mix(in srgb, var(--ink) 50%, transparent);
+  pointer-events: none;
+  transition: transform .35s var(--ease), font-size .35s var(--ease);
+  transform-origin: left;
+}
+.field input:focus, .field textarea:focus { outline: 0; border-color: var(--kraft); }
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field textarea:focus + label,
+.field textarea:not(:placeholder-shown) + label {
+  transform: translateY(-1.35rem) scale(.72);
+  color: color-mix(in srgb, var(--ink) 45%, transparent);
+}
+.field.is-error input, .field.is-error textarea { border-color: #C0392B; }
+.form__note { grid-column: 1 / -1; font-size: .82rem; min-height: 1.2rem; }
+.form__note.ok  { color: #1E7A45; }
+.form__note.err { color: #C0392B; }
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+/* Rodapé centrado: a logo completa no eixo, os três blocos de dados embaixo e a
+   barra legal fechando. Saiu o "WONDER FIX" em contorno gigante — o nome já está
+   desenhado dentro da logo, e repeti-lo em 11rem ao lado era eco, não hierarquia. */
+.footer {
+  background: var(--navy-deep);
+  padding: clamp(3.5rem, 7vw, 6rem) var(--pad) 2rem;
+  text-align: center;
+}
+.footer__brand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+.footer__logo { width: clamp(190px, 22vw, 300px); height: auto; }
+
+.footer__cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem 2rem;
+  padding-bottom: 2.5rem;
+}
+.footer__cols h4 {
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--kraft);
+  margin-bottom: .8rem;
+  font-weight: 600;
+}
+.footer__cols p { font-size: .88rem; line-height: 1.7; color: color-mix(in srgb, var(--paper) 62%, transparent); }
+.footer__cols a:hover { color: var(--kraft); }
+
+/* Centrada também: com o resto no eixo, o "space-between" deixava as duas pontas
+   penduradas nos cantos, brigando com o alinhamento do bloco inteiro. */
+.footer__bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .6rem 1.4rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
+  font-size: .72rem;
+  color: color-mix(in srgb, var(--paper) 42%, transparent);
+}
+
+/* ── WHATSAPP FLUTUANTE ─────────────────────────────────────────
+   Verde do WhatsApp, e não a paleta do site, de propósito: o valor de um botão
+   flutuante é ser reconhecido sem ser lido. Pintado de kraft ou navy, ele vira
+   só mais um botão. É o único ponto do site que foge da paleta.
+
+   Fechado é um círculo com o ícone; no hover a pílula abre para a esquerda e
+   revela o texto — ancorado à direita, não empurra nada fora da tela.        */
+.wa {
+  --wa: #25D366;
+  position: fixed;
+  right: clamp(1rem, 2.5vw, 2rem);
+  bottom: clamp(1rem, 2.5vw, 2rem);
+  z-index: 60;
+
+  display: flex;
+  align-items: center;
+  height: 56px;
+  /* 15 + 26 (ícone) + 15 = 56 = a altura. Fechado, é círculo exato.
+     Sem gap aqui: um gap sobrevive ao rótulo de largura 0 e o botão fechado
+     vira um oval. O respiro vive na margem do rótulo, que abre com ele. */
+  padding: 0 15px;
+  border-radius: 999px;
+  background: var(--wa);
+  color: #06210F;
+
+  box-shadow: 0 6px 24px color-mix(in srgb, black 45%, transparent);
+  transition: transform .5s var(--ease), opacity .5s var(--ease),
+              box-shadow .4s var(--ease);
+}
+.wa__icon { width: 26px; height: 26px; flex: 0 0 auto; }
+
+/* A largura do rótulo é animada, não a do botão: assim o círculo fechado é
+   perfeitamente redondo e o texto não "salta" no meio da transição. */
+.wa__label {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 88%;
+  font-size: .78rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  max-width: 0;
+  margin-left: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-width .5s var(--ease), margin-left .5s var(--ease),
+              opacity .35s var(--ease);
+}
+.wa:hover, .wa:focus-visible {
+  box-shadow: 0 10px 32px color-mix(in srgb, black 55%, transparent);
+}
+.wa:hover .wa__label,
+.wa:focus-visible .wa__label { max-width: 12rem; margin-left: .7rem; opacity: 1; }
+
+/* Escondido até passar do hero, e escondido de novo em cima do formulário.
+   pointer-events: none evita que ele continue clicável enquanto invisível. */
+.wa.is-hidden {
+  opacity: 0;
+  transform: translateY(120%) scale(.85);
+  pointer-events: none;
+}
+
+/* ── RESPONSIVO ─────────────────────────────────────────────── */
+@media (max-width: 980px) {
+  /* No celular não existe hover: o botão fica só o círculo, sem rótulo. */
+  .wa { height: 52px; padding: 0; width: 52px; justify-content: center; }
+  .wa__label { display: none; }
+
+  .nav__links, .btn--nav { display: none; }
+  .nav__burger { display: flex; }
+  .hero__foot { grid-template-columns: 1fr; align-items: start; }
+  .hero__scroll { display: none; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stat:nth-child(2n) { border-right: 0; }
+  .stat:nth-child(-n+2) { border-bottom: 1px solid color-mix(in srgb, var(--paper) 10%, transparent); }
+  /* Empresa: tudo empilha. O selo perde a barra lateral e vira rodapé do texto. */
+  .about__story { grid-template-columns: 1fr; }
+  .about__sign {
+    justify-self: start;
+    padding-left: 0;
+    border-left: 0;
+    padding-top: 1.8rem;
+    border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+    width: 100%;
+  }
+  .about__pillars { grid-template-columns: 1fr; gap: 0; }
+  .about__pillars li { padding-block: 1.5rem; }
+  .products__grid { grid-template-columns: 1fr; }
+  .card, .card--lg, .card--wide, .card:nth-child(3) { grid-column: 1 / -1; }
+  .card__media, .card--lg .card__media, .card--wide .card__media,
+  .card:not(.card--lg):not(.card--wide) .card__media { aspect-ratio: 16 / 10; }
+  .process__track { grid-template-columns: 1fr; }   /* empilha os quatro passos */
+  .cta { grid-template-columns: 1fr; }
+  .form { grid-template-columns: 1fr; }
+  .footer__cols { grid-template-columns: 1fr; }
+}
+
+/* ── ACESSIBILIDADE: quem pediu menos movimento, recebe menos ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  body::after { animation: none; }
+}

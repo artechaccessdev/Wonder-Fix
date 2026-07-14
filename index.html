@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Wonder Fix — Fitas e embalagens personalizadas com a sua marca</title>
+  <meta name="description" content="Fábrica de fitas adesivas e embalagens customizadas desde 2003. Sua marca impressa no lacre, do primeiro rolo à entrega. Solicite um orçamento." />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Wonder Fix — Nossa marca, sua segurança" />
+  <meta property="og:description" content="Fábrica de fitas adesivas e embalagens customizadas desde 2003." />
+  <meta property="og:image" content="/images/og.jpg" />
+  <meta property="og:locale" content="pt_BR" />
+
+  <link rel="icon" type="image/png" href="/brand/favicon.png" />
+  <link rel="apple-touch-icon" href="/brand/favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Wonder Fix",
+    "slogan": "Nossa marca, sua segurança",
+    "foundingDate": "2003",
+    "description": "Fábrica de fitas adesivas e embalagens customizadas.",
+    "telephone": "+55 21 96418-0421",
+    "taxID": "05.994.311/0001-37",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Rua da Regeneração, 350",
+      "addressLocality": "Rio de Janeiro",
+      "addressRegion": "RJ",
+      "postalCode": "21040-170",
+      "addressCountry": "BR"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <!-- ══ PRELOADER ═══════════════════════════════════════════════ -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__inner">
+      <img class="preloader__mark" src="/brand/logo-symbol-light.png" alt="" width="150" height="70" />
+      <span class="preloader__word">WONDER FIX</span>
+      <span class="preloader__count" id="preCount">0</span>
+    </div>
+    <div class="preloader__bar" id="preBar"></div>
+  </div>
+
+  <!-- Progresso da leitura -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <!-- ══ NAV ═════════════════════════════════════════════════════ -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__logo" aria-label="Wonder Fix — início">
+      <img class="nav__mark" src="/brand/logo-symbol-light.png" alt="Wonder Fix" width="86" height="40" />
+      <span class="nav__name">WONDER FIX</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#produtos">Produtos</a>
+      <a href="#processo">Processo</a>
+      <a href="#empresa">Empresa</a>
+      <a href="#segmentos">Segmentos</a>
+    </nav>
+    <a href="#orcamento" class="btn btn--nav" data-magnetic>
+      <span>Solicitar orçamento</span>
+    </a>
+    <button class="nav__burger" id="burger" aria-label="Abrir menu">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <div class="menu" id="menu">
+    <a href="#produtos">Produtos</a>
+    <a href="#processo">Processo</a>
+    <a href="#empresa">Empresa</a>
+    <a href="#segmentos">Segmentos</a>
+    <a href="#orcamento">Orçamento</a>
+  </div>
+
+  <main id="top">
+
+    <!-- ══ HERO ══════════════════════════════════════════════════ -->
+    <section class="hero">
+      <div class="hero__media" data-hero-media>
+        <!--
+          VÍDEO DO HERO · provisório (banco Mixkit, licença livre p/ uso comercial).
+          Substituir pelo material filmado na fábrica assim que houver.
+          Encode: 25fps, sem áudio, ~8-12s. Ver README.md.
+        -->
+        <video class="hero__video" autoplay muted loop playsinline
+               preload="none" poster="/images/hero-poster.webp">
+          <source src="/video/hero.webm" type="video/webm" />
+          <source src="/video/hero.mp4" type="video/mp4" />
+        </video>
+        <div class="hero__grid"></div>
+        <div class="hero__scrim"></div>
+      </div>
+
+      <div class="hero__content">
+        <p class="eyebrow" data-fade>
+          <span class="dot"></span> Fábrica própria · Desde 2003
+        </p>
+
+        <h1 class="hero__title" data-split>
+          O lacre que fecha
+          <em>a caixa</em> é o mesmo
+          que abre <em>a sua marca.</em>
+        </h1>
+
+        <div class="hero__foot">
+          <p class="hero__lead" data-fade>
+            Fitas adesivas e embalagens fabricadas e personalizadas sob medida.
+            Você manda a arte, a gente entrega o rolo — com adesão testada,
+            gramatura conferida e prazo cumprido.
+          </p>
+          <div class="hero__actions" data-fade>
+            <a href="#orcamento" class="btn btn--solid" data-magnetic>
+              <span>Solicitar orçamento</span>
+            </a>
+            <a href="#produtos" class="btn btn--ghost">Ver linhas de produto</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__scroll">
+        <span>Role</span>
+        <div class="hero__scrollbar"><i></i></div>
+      </div>
+    </section>
+
+    <!-- ══ NÚMEROS ═══════════════════════════════════════════════ -->
+    <section class="stats">
+      <!-- TROCAR AQUI · NÚMEROS REAIS. São a prova mais forte do site. -->
+      <div class="stat">
+        <span class="stat__n"><b data-count="22">0</b></span>
+        <p class="stat__l">anos de fábrica<br />em operação contínua</p>
+      </div>
+      <div class="stat">
+        <span class="stat__n"><b data-count="850">0</b>+</span>
+        <p class="stat__l">clientes ativos<br />em todo o Brasil</p>
+      </div>
+      <div class="stat">
+        <span class="stat__n"><b data-count="1200">0</b><i>km</i></span>
+        <p class="stat__l">de fita produzida<br />por mês</p>
+      </div>
+      <div class="stat">
+        <span class="stat__n"><b data-count="72">0</b><i>h</i></span>
+        <p class="stat__l">prazo médio<br />de produção</p>
+      </div>
+    </section>
+
+    <!-- ══ EMPRESA · MANIFESTO ═══════════════════════════════════
+         Bloco escuro entre dois blocos claros: a seção passa a ter começo e
+         fim. O título é a fala, o texto é a assinatura embaixo dela, e os três
+         pilares fecham como um trilho. A logo entra pequena, como selo — não
+         como enfeite no meio do vazio.                                       -->
+    <section class="about" id="empresa">
+      <div class="about__head">
+        <p class="eyebrow"><span class="dot"></span> A empresa</p>
+        <h2 class="h2 about__claim" data-split>
+          Não vendemos fita.
+          Vendemos a certeza de que a caixa
+          <em>chega fechada.</em>
+        </h2>
+      </div>
+
+      <div class="about__story">
+        <div class="about__text">
+          <p>
+            A Wonder Fix nasceu em 2003 em um galpão com uma única máquina de corte.
+            Hoje são <b>três linhas de produção</b> rodando fita acrílica, hot melt e
+            embalagem personalizada — todas com a arte do cliente impressa.
+          </p>
+          <p>
+            O que não mudou foi o motivo: embalagem é a última coisa que a sua empresa
+            toca antes do produto sair, e a primeira que o seu cliente vê quando chega.
+            É a sua marca no lacre. É por isso que a gente testa cada lote.
+          </p>
+        </div>
+
+        <figure class="about__sign">
+          <img class="about__seal" src="/brand/logo-symbol-light.png"
+               alt="Wonder Fix" width="130" height="60" loading="lazy" />
+          <figcaption>
+            <b>Nossa marca, sua segurança</b>
+            <span>Wonder Fix · fábrica em operação contínua desde 2003</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <ul class="about__pillars">
+        <li>
+          <span class="about__pn">01</span>
+          <h3>Fábrica própria</h3>
+          <p>Sem terceirização de produção. Da bobina ao rolo, sai tudo do nosso galpão.</p>
+        </li>
+        <li>
+          <span class="about__pn">02</span>
+          <h3>Teste em cada lote</h3>
+          <p>Adesão e tração conferidas antes de a fita sair da linha. Com laudo.</p>
+        </li>
+        <li>
+          <span class="about__pn">03</span>
+          <h3>Arte sem custo</h3>
+          <p>Nosso time fecha o layout com a sua marca. Ajuste ilimitado até aprovar.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ══ PRODUTOS ══════════════════════════════════════════════ -->
+    <section class="products" id="produtos">
+      <div class="section__head">
+        <p class="eyebrow"><span class="dot"></span> Linhas de produto</p>
+        <h2 class="h2" data-split>Tudo sai daqui <em>com a sua marca.</em></h2>
+      </div>
+
+      <div class="products__grid">
+        <article class="card">
+          <div class="card__media">
+            <img src="/images/produtos/caixa-v2.webp"
+                 alt="Caixas de papelão kraft com a marca Wonder Fix impressa"
+                 width="900" height="900" loading="lazy" />
+          </div>
+          <div class="card__info">
+            <span class="card__idx">01</span>
+            <h3>Caixa personalizada</h3>
+            <p>
+              Papelão kraft com a sua marca impressa direto na caixa. Da caixa de mudança
+              à de delivery — a embalagem chega falando o nome de quem enviou.
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__media">
+            <img src="/images/produtos/sinalizacao.webp"
+                 alt="Rolos de fita zebrada amarelo e preto e verde e branco para sinalização"
+                 width="900" height="900" loading="lazy" />
+          </div>
+          <div class="card__info">
+            <span class="card__idx">02</span>
+            <h3>Fita de sinalização</h3>
+            <p>
+              Zebrada, para demarcar piso, corredor e área de risco. Amarelo-preto
+              e verde-branco, em rolo largo.
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__media">
+            <img src="/images/produtos/fita-personalizada.webp"
+                 alt="Rolo de fita adesiva com a marca Wonder Fix impressa, lacrando uma caixa branca"
+                 width="900" height="900" loading="lazy" />
+          </div>
+          <div class="card__info">
+            <span class="card__idx">03</span>
+            <h3>Fita adesiva personalizada</h3>
+            <p>
+              Sua marca impressa no lacre. Transparente ou colorida, do rolo de escritório
+              ao industrial.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ══ PROCESSO · SCROLL HORIZONTAL ══════════════════════════ -->
+    <section class="process" id="processo">
+      <div class="process__inner">
+        <div class="process__intro">
+          <p class="eyebrow"><span class="dot"></span> Como funciona</p>
+          <h2 class="h2 h2--sm" data-split>Do briefing ao <em>rolo pronto.</em></h2>
+        </div>
+
+        <div class="process__track">
+          <article class="step">
+            <span class="step__n">01</span>
+            <h3>Briefing</h3>
+            <p>Você diz o que embala, o peso e o volume mensal. A gente já indica a gramatura certa — sem empurrar rolo a mais.</p>
+            <footer>Você fala. A gente escuta.</footer>
+          </article>
+
+          <article class="step">
+            <span class="step__n">02</span>
+            <h3>Arte</h3>
+            <p>Nosso time fecha o layout com a sua marca e manda a prova digital. Ajuste ilimitado até você aprovar.</p>
+            <footer>Sem custo de layout.</footer>
+          </article>
+
+          <article class="step">
+            <span class="step__n">03</span>
+            <h3>Produção</h3>
+            <p>Entra na linha. Cada lote passa por teste de adesão e tração antes de sair do galpão.</p>
+            <footer>Com laudo do lote.</footer>
+          </article>
+
+          <article class="step">
+            <span class="step__n">04</span>
+            <h3>Entrega</h3>
+            <p>Sai da fábrica com rastreio. Reposição programada, se você quiser nunca mais pensar nisso.</p>
+            <footer>Rastreio até a sua porta.</footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SEGMENTOS ═════════════════════════════════════════════ -->
+    <section class="sectors" id="segmentos">
+      <div class="section__head">
+        <p class="eyebrow"><span class="dot"></span> Segmentos atendidos</p>
+        <h2 class="h2" data-split>Se cabe numa caixa, <em>a gente lacra.</em></h2>
+      </div>
+      <ul class="sectors__list">
+        <li><span>01</span> E-commerce e fulfillment</li>
+        <li><span>02</span> Alimentício</li>
+        <li><span>03</span> Farmacêutico e hospitalar</li>
+        <li><span>04</span> Transportadoras</li>
+        <li><span>05</span> Indústria e autopeças</li>
+        <li><span>06</span> Gráficas e editoras</li>
+      </ul>
+    </section>
+
+    <!-- ══ DEPOIMENTO ════════════════════════════════════════════ -->
+    <section class="quote">
+      <!-- TROCAR AQUI · DEPOIMENTO REAL, com nome, cargo e empresa. Sem isso, remova a seção. -->
+      <blockquote data-split>
+        “A caixa chega fechada e com a nossa cara.
+        Em três anos, <em>zero</em> reclamação de lacre violado.”
+      </blockquote>
+      <figcaption>
+        <div class="ph ph--avatar" data-ph="FOTO"></div>
+        <div>
+          <b>[Nome do cliente]</b>
+          <span>[Cargo] · [Empresa]</span>
+        </div>
+      </figcaption>
+    </section>
+
+    <!-- ══ ORÇAMENTO ═════════════════════════════════════════════ -->
+    <section class="cta" id="orcamento">
+      <div class="cta__left">
+        <h2 class="cta__title" data-split>Vamos colocar<br /><em>a sua marca</em><br />no lacre.</h2>
+        <p class="cta__lead">
+          Resposta em até 1 dia útil. Sem robô, sem cadastro — uma pessoa da fábrica lê e responde.
+        </p>
+        <div class="cta__direct">
+          <a href="https://wa.me/5521964180421" class="cta__wa">WhatsApp direto →</a>
+          <a href="mailto:comercial@wonderfix.com.br">comercial@wonderfix.com.br</a>
+        </div>
+      </div>
+
+      <form class="form" id="form" novalidate>
+        <div class="field">
+          <input type="text" id="nome" name="nome" required placeholder=" " />
+          <label for="nome">Seu nome</label>
+        </div>
+        <div class="field">
+          <input type="text" id="empresa" name="empresa" required placeholder=" " />
+          <label for="empresa">Empresa</label>
+        </div>
+        <div class="field">
+          <input type="email" id="email" name="email" required placeholder=" " />
+          <label for="email">E-mail</label>
+        </div>
+        <div class="field">
+          <input type="tel" id="tel" name="tel" placeholder=" " />
+          <label for="tel">Telefone / WhatsApp</label>
+        </div>
+        <div class="field field--full">
+          <textarea id="msg" name="msg" rows="3" placeholder=" "></textarea>
+          <label for="msg">O que você precisa embalar?</label>
+        </div>
+        <button type="submit" class="btn btn--solid btn--full" data-magnetic>
+          <span>Enviar pedido de orçamento</span>
+        </button>
+        <p class="form__note" id="formNote" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <!-- ══ FOOTER ══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <!-- A logo completa já traz o nome e o slogan desenhados. Repetir "WONDER FIX"
+         em tipo grande do lado era dizer a mesma coisa duas vezes. -->
+    <div class="footer__brand">
+      <img class="footer__logo" src="/brand/logo-full-light.png"
+           alt="Wonder Fix — Nossa marca, sua segurança. Desde 2003."
+           width="340" height="256" loading="lazy" />
+    </div>
+    <div class="footer__cols">
+      <div>
+        <h4>Fábrica</h4>
+        <p>Rua da Regeneração, 350<br />Bonsucesso · Rio de Janeiro/RJ<br />CEP 21040-170</p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <p>
+          <a href="tel:+5521964180421">(21) 96418-0421</a><br />
+          <a href="mailto:comercial@wonderfix.com.br">comercial@wonderfix.com.br</a>
+        </p>
+      </div>
+      <div>
+        <h4>Atendimento</h4>
+        <!-- TROCAR AQUI · CONFIRMAR HORÁRIO REAL. Foi chutado no rascunho. -->
+        <p>Seg a Sex · 8h às 18h</p>
+      </div>
+    </div>
+    <div class="footer__bar">
+      <span>CNPJ 05.994.311/0001-37</span>
+      <span>© <b id="year">2026</b> Wonder Fix · Todos os direitos reservados</span>
+    </div>
+  </footer>
+
+  <!-- ══ WHATSAPP FLUTUANTE ══════════════════════════════════════
+       Só aparece depois do hero: no topo, quem manda é o botão de orçamento.
+       E some quando o formulário entra na tela — ali ele viraria um segundo
+       CTA disputando com o primeiro.                                        -->
+  <a class="wa" id="wa"
+     href="https://wa.me/5521964180421?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20um%20or%C3%A7amento."
+     target="_blank" rel="noopener"
+     aria-label="Falar com a Wonder Fix no WhatsApp">
+    <svg class="wa__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.22.25-.85.84-.85 2.04 0 1.2.87 2.36.99 2.53.12.16 1.71 2.61 4.15 3.66.58.25 1.03.4 1.39.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29z"/>
+    </svg>
+    <span class="wa__label">Falar no WhatsApp</span>
+  </a>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
