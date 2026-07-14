@@ -1142,3 +1142,224 @@ em {
   }
   body::after { animation: none; }
 }
+
+/* ── COOKIES · BANNER E PREFERÊNCIAS ─────────────────────────────
+   O banner senta no canto, não numa faixa que atravessa a tela: numa landing
+   que abre com vídeo, a barra full-width corta o hero em dois e a primeira
+   impressão do site vira o aviso de cookie. Aqui ele é um cartão que chega
+   depois do preloader, não disputa o título, e o botão do WhatsApp sobe para
+   não ficar por baixo dele.                                                   */
+.ck {
+  position: fixed;
+  left: var(--gut);
+  bottom: var(--gut);
+  z-index: 970;                 /* acima do WhatsApp (60), abaixo do preloader */
+  width: min(30rem, calc(100vw - var(--gut) * 2));
+  padding: 1.5rem;
+  background: var(--navy);
+  border: 1px solid color-mix(in srgb, var(--paper) 14%, transparent);
+  box-shadow: 0 24px 60px rgb(0 0 0 / .45);
+  /* Fora da tela e sem receber clique enquanto fechado — `visibility` é o que
+     tira o cartão da ordem de tabulação. Só com opacity ele continuaria
+     alcançável pelo teclado, invisível, atrás de tudo. */
+  transform: translateY(calc(100% + var(--gut)));
+  opacity: 0;
+  visibility: hidden;
+  transition: transform .7s var(--ease), opacity .5s var(--ease), visibility .7s;
+}
+.ck.is-open { transform: none; opacity: 1; visibility: visible; }
+
+.ck__title {
+  font-family: var(--f-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  margin-bottom: .5rem;
+}
+.ck__text p {
+  font-size: .9rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--paper) 72%, transparent);
+}
+.ck__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-top: 1.35rem;
+}
+/* Recusar do mesmo tamanho e peso que Aceitar. A LGPD pede que negar seja tão
+   fácil quanto consentir — botão de recusa espremido é padrão escuro, e a ANPD
+   já autuou por isso. O único destaque é a cor do "Aceitar", que é a cor de
+   ação do site inteiro. */
+.ck__btn { flex: 1 1 auto; padding: .8rem 1rem; font-size: .72rem; }
+
+/* ── PAINEL DE PREFERÊNCIAS ──────────────────────────────────── */
+.ckp {
+  position: fixed;
+  inset: 0;
+  z-index: 990;                 /* por cima do próprio banner */
+  display: grid;
+  place-items: center;
+  padding: var(--gut);
+  background: rgb(3 8 20 / .72);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .45s var(--ease), visibility .45s;
+}
+.ckp.is-open { opacity: 1; visibility: visible; }
+
+.ckp__panel {
+  width: min(38rem, 100%);
+  max-height: 85vh;
+  overflow-y: auto;             /* lista longa em tela baixa rola dentro do painel */
+  background: var(--navy);
+  border: 1px solid color-mix(in srgb, var(--paper) 14%, transparent);
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  transform: translateY(1.5rem);
+  transition: transform .5s var(--ease);
+}
+.ckp.is-open .ckp__panel { transform: none; }
+
+.ckp__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
+}
+.ckp__head h2 {
+  font-family: var(--f-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+.ckp__x {
+  flex: none;
+  width: 40px; height: 40px;    /* 40px: alvo de dedo, não de mouse */
+  display: grid; place-items: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  background: none;
+  border: 1px solid color-mix(in srgb, var(--paper) 18%, transparent);
+  color: var(--paper);
+  cursor: pointer;
+  transition: color .3s var(--ease), border-color .3s var(--ease);
+}
+@media (hover: hover) {
+  .ckp__x:hover { color: var(--kraft); border-color: var(--kraft); }
+}
+
+.ckp__list { list-style: none; }
+.ckp__item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.3rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--paper) 8%, transparent);
+}
+.ckp__info h3 {
+  font-family: var(--f-display);
+  font-size: .95rem;
+  font-weight: 700;
+  margin-bottom: .3rem;
+}
+.ckp__info p {
+  font-size: .85rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--paper) 62%, transparent);
+}
+.ckp__fixed {
+  flex: none;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--kraft);
+  padding-top: .2rem;
+}
+
+/* Interruptor. O <input> real continua na página (só invisível), então ele
+   recebe foco, tabulação e a barra de espaço de graça — o <span> pintado é só
+   a casca. Trocar por uma <div> com onclick custaria tudo isso. */
+.ckp__sw { flex: none; cursor: pointer; padding-top: .15rem; }
+.ckp__sw input {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+}
+.ckp__track {
+  display: block;
+  position: relative;
+  width: 46px; height: 26px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--paper) 22%, transparent);
+  transition: background .35s var(--ease), border-color .35s var(--ease);
+}
+.ckp__track::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--paper);
+  transform: translateY(-50%);
+  transition: transform .35s var(--ease), background .35s var(--ease);
+}
+.ckp__sw input:checked + .ckp__track {
+  background: var(--kraft);
+  border-color: var(--kraft);
+}
+.ckp__sw input:checked + .ckp__track::after {
+  transform: translateY(-50%) translateX(20px);
+  background: var(--navy-deep);
+}
+/* O foco tem que aparecer na casca: o input que o recebe é invisível. */
+.ckp__sw input:focus-visible + .ckp__track {
+  outline: 2px solid var(--kraft);
+  outline-offset: 3px;
+}
+
+.ckp__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+  padding-top: 1.5rem;
+}
+
+/* Some da tela, continua no leitor de rótulo. */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* No celular o cartão encosta nas duas bordas: 30rem numa tela de 360px viraria
+   uma coluna estreita com o texto quebrando em toda linha. */
+@media (max-width: 560px) {
+  .ck { left: var(--gut); right: var(--gut); width: auto; padding: 1.25rem; }
+  .ck__actions { gap: .5rem; }
+  .ck__btn { flex: 1 1 100%; }
+  .ckp__item { gap: 1rem; }
+
+  /* Só no celular o cartão cai em cima do WhatsApp — no desktop um está à
+     esquerda e o outro à direita. Aqui o botão sai de cena enquanto o banner
+     estiver aberto, em vez de subir: empurrá-lo para cima exigiria conhecer a
+     altura do banner, que muda com a quebra do texto. E dois botões flutuantes
+     empilhados numa tela de 390px viram bagunça — primeiro o visitante decide
+     sobre o cookie, depois o WhatsApp volta.
+     A saída é a mesma que ele já usa em .is-hidden, então o movimento é o
+     movimento que o site já tinha. */
+  .ck.is-open ~ .wa {
+    opacity: 0;
+    transform: translateY(120%) scale(.85);
+    pointer-events: none;
+  }
+}

@@ -274,6 +274,53 @@
           </div>
         </article>
 
+        <article class="card">
+          <div class="card__media">
+            <img src="/images/produtos/fita-gomada.webp"
+                 alt="Rolo de fita gomada de papel kraft para fechamento de caixas"
+                 width="1200" height="900" loading="lazy" />
+          </div>
+          <div class="card__info">
+            <h3>Fita gomada</h3>
+            <p>
+              Papel kraft que cola no papelão e vira parte da caixa. Aguenta umidade
+              e calor, e para abrir tem que rasgar — quem violou não esconde.
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__media">
+            <img src="/images/produtos/fitilhos.webp"
+                 alt="Rolos de fitilho de polipropileno para amarração de volumes"
+                 width="1200" height="900" loading="lazy" />
+          </div>
+          <div class="card__info">
+            <h3>Fitilho para amarração</h3>
+            <p>
+              Polipropileno para amarrar volume, fardo e mudança. Rolo de 280 metros,
+              em várias cores e espessuras — segura o que o arame seguraria.
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__media">
+            <!-- TROCAR AQUI · foto provisória de banco, baixa resolução.
+                 Ver o aviso em scripts/produtos.mjs. -->
+            <img src="/images/produtos/plastico-bolha.webp"
+                 alt="Bobina de plástico bolha para proteção de itens frágeis"
+                 width="1200" height="900" loading="lazy" />
+          </div>
+          <div class="card__info">
+            <h3>Plástico bolha</h3>
+            <p>
+              Bobina para o que quebra: vidro, cerâmica, eletrônico. Largura cortada
+              no tamanho do que você embala, sem sobra jogada fora.
+            </p>
+          </div>
+        </article>
+
       </div>
 
       <!-- O "Saiba mais" do layout do cliente. Ainda não há página de produto:
@@ -429,9 +476,95 @@
     </div>
     <div class="footer__bar">
       <span>CNPJ 05.994.311/0001-37</span>
+      <a href="#" data-cookie-prefs>Preferências de cookies</a>
       <span>© <b id="year">2026</b> Wonder Fix · Todos os direitos reservados</span>
     </div>
   </footer>
+
+  <!-- ══ COOKIES · LGPD ══════════════════════════════════════════
+       O banner não tem "X" nem fecha no clique fora, e isso é de propósito:
+       pela LGPD, silêncio não é consentimento. Recusar tem que custar o mesmo
+       clique que aceitar — por isso "Recusar" é botão, do mesmo tamanho, e não
+       um link escondido. Ver src/cookies.js.                                 -->
+  <div class="ck" id="cookieBanner" role="dialog" aria-live="polite"
+       aria-labelledby="ckTitulo" aria-describedby="ckTexto">
+    <div class="ck__text">
+      <h2 class="ck__title" id="ckTitulo">Cookies por aqui</h2>
+      <p id="ckTexto">
+        Usamos cookies necessários para o site funcionar e, se você deixar, cookies de
+        medição para entender o que as pessoas procuram aqui. Você escolhe — e pode
+        mudar de ideia quando quiser.
+      </p>
+    </div>
+    <div class="ck__actions">
+      <button type="button" class="btn btn--ghost ck__btn" id="ckPrefs">Preferências</button>
+      <button type="button" class="btn btn--ghost ck__btn" id="ckRecusar">Recusar</button>
+      <button type="button" class="btn btn--solid ck__btn" id="ckAceitar">
+        <span>Aceitar</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="ckp" id="cookiePrefs" role="dialog" aria-modal="true" aria-labelledby="ckpTitulo">
+    <div class="ckp__panel" data-lenis-prevent>
+      <header class="ckp__head">
+        <h2 id="ckpTitulo">Preferências de cookies</h2>
+        <button type="button" class="ckp__x" id="ckFechaPrefs" aria-label="Fechar preferências">×</button>
+      </header>
+
+      <ul class="ckp__list">
+        <li class="ckp__item">
+          <div class="ckp__info">
+            <h3>Necessários</h3>
+            <p>
+              Fazem o site abrir e guardam esta sua escolha. Sem eles nada funciona,
+              então ficam sempre ligados.
+            </p>
+          </div>
+          <!-- Interruptor travado: mostrar um botão que não desliga nada seria
+               teatro. Ele diz "sempre" e pronto. -->
+          <span class="ckp__fixed">Sempre ativo</span>
+        </li>
+
+        <li class="ckp__item">
+          <div class="ckp__info">
+            <h3>Medição</h3>
+            <p>
+              Contam quantas pessoas visitam e quais produtos elas mais olham. É como
+              a gente sabe o que melhorar aqui dentro.
+            </p>
+          </div>
+          <label class="ckp__sw">
+            <input type="checkbox" id="ck-analytics" data-cat="analytics" />
+            <span class="ckp__track" aria-hidden="true"></span>
+            <span class="sr-only">Ativar cookies de medição</span>
+          </label>
+        </li>
+
+        <li class="ckp__item">
+          <div class="ckp__info">
+            <h3>Marketing</h3>
+            <p>
+              Permitem mostrar nossos anúncios para quem já passou por aqui e medir se
+              eles trouxeram alguém.
+            </p>
+          </div>
+          <label class="ckp__sw">
+            <input type="checkbox" id="ck-marketing" data-cat="marketing" />
+            <span class="ckp__track" aria-hidden="true"></span>
+            <span class="sr-only">Ativar cookies de marketing</span>
+          </label>
+        </li>
+      </ul>
+
+      <footer class="ckp__foot">
+        <button type="button" class="btn btn--ghost ck__btn" id="ckSalvar">Salvar escolhas</button>
+        <button type="button" class="btn btn--solid ck__btn" id="ckAceitarTudo">
+          <span>Aceitar todos</span>
+        </button>
+      </footer>
+    </div>
+  </div>
 
   <!-- ══ WHATSAPP FLUTUANTE ══════════════════════════════════════
        Só aparece depois do hero: no topo, quem manda é o botão de orçamento.
@@ -447,6 +580,9 @@
     <span class="wa__label">Falar no WhatsApp</span>
   </a>
 
+  <!-- Antes do main.js de propósito: o Consent Mode precisa declarar "negado"
+       para o Google antes de qualquer tag existir na página. -->
+  <script type="module" src="/src/cookies.js"></script>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

@@ -41,8 +41,41 @@ await webp(
   900, 900,
 );
 
+/* ── Cards 04-06 · vindos do catálogo do site antigo (adhesivetape.com.br) ──
+   Estes três nascem em 4:3 (1200x900), a proporção do quadro no layout novo —
+   entram sem corte. Os três de cima seguem quadrados e o object-fit: cover do
+   CSS apara o excedente; foi o combinado para não estragar fotos pequenas.
+   Nenhuma das três mostra marca ou telefone (ver o aviso lá embaixo).          */
+
+/* 04 · Fita gomada — rolo de papel kraft, foto de estúdio 1303x1413. */
+await webp(sharp("images/_old-fita-gomada.jpg"), "fita-gomada", 1200, 900);
+
+/* 05 · Fitilhos — rolo grande + rolo na rede, foto de estúdio 2326x1632. */
+await webp(sharp("images/_old-fitilhos.jpg"), "fitilhos", 1200, 900);
+
+/* ⚠ 06 · Plástico bolha — FOTO PROVISÓRIA. O original tem só 474x517: é imagem
+   de banco, não do produto deles, e sobe para 1200x900 por interpolação — em
+   tela retina o rolo sai macio. Funciona por ora; trocar assim que a fábrica
+   mandar uma foto real. É a única das seis abaixo do padrão.
+
+   Aqui o rolo é COMPOSTO sobre uma tela branca em vez de preencher o quadro como
+   as outras cinco. O original é retrato; recortado em 4:3 virava um close das
+   bolhas — textura, não produto. E "contain" puro também não bastava: o CSS do
+   card pede 116% de altura para o parallax e reenquadra a imagem, comendo as
+   bordas. A folga branca em volta é o que o reenquadramento consome sem tocar no
+   rolo. O branco casa com o fundo da própria foto. */
+const bolha = await sharp("images/_old-plastico-bolha.jpg")
+  .resize({ height: 620, kernel: "lanczos3" })
+  .toBuffer();
+await sharp({
+  create: { width: 1200, height: 900, channels: 3, background: "#ffffff" },
+})
+  .composite([{ input: bolha, gravity: "center" }])
+  .webp({ quality: 82 })
+  .toFile(`${OUT}/plastico-bolha.webp`);
+
 /* images/fitas_adesivas-todo-tipo.jpg não é mais usada: o card do banner largo
-   foi removido. A seção tem três produtos. */
+   foi removido. */
 
 /* ⚠ images/fita-adesiva-personalizada.jpg NÃO É USADA — de propósito.
    A foto é de OUTRA EMPRESA: exibe a marca "ADHESIVETAPE", o telefone
