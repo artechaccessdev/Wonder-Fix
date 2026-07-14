@@ -2,7 +2,10 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- viewport-fit=cover libera as variáveis env(safe-area-inset-*) usadas no CSS.
+       Sem ele o iPhone reporta zero em todas, e o conteúdo passa por baixo do
+       notch e da barra de gestos. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <title>Wonder Fix — Fitas e embalagens personalizadas com a sua marca</title>
   <meta name="description" content="Fábrica de fitas adesivas e embalagens customizadas desde 2003. Sua marca impressa no lacre, do primeiro rolo à entrega. Solicite um orçamento." />
@@ -76,7 +79,11 @@
     </button>
   </header>
 
-  <div class="menu" id="menu">
+  <!-- data-lenis-prevent: o menu agora rola sozinho quando a tela é baixa demais
+       para os cinco links (celular deitado). O Lenis captura o toque na página
+       inteira e, com o menu aberto, ele está parado — sem este atributo o gesto
+       dentro do menu era engolido e o overlay não rolava. -->
+  <div class="menu" id="menu" data-lenis-prevent>
     <a href="#produtos">Produtos</a>
     <a href="#processo">Processo</a>
     <a href="#empresa">Empresa</a>
@@ -229,7 +236,6 @@
                  width="900" height="900" loading="lazy" />
           </div>
           <div class="card__info">
-            <span class="card__idx">01</span>
             <h3>Caixa personalizada</h3>
             <p>
               Papelão kraft com a sua marca impressa direto na caixa. Da caixa de mudança
@@ -245,7 +251,6 @@
                  width="900" height="900" loading="lazy" />
           </div>
           <div class="card__info">
-            <span class="card__idx">02</span>
             <h3>Fita de sinalização</h3>
             <p>
               Zebrada, para demarcar piso, corredor e área de risco. Amarelo-preto
@@ -261,7 +266,6 @@
                  width="900" height="900" loading="lazy" />
           </div>
           <div class="card__info">
-            <span class="card__idx">03</span>
             <h3>Fita adesiva personalizada</h3>
             <p>
               Sua marca impressa no lacre. Transparente ou colorida, do rolo de escritório
@@ -271,6 +275,15 @@
         </article>
 
       </div>
+
+      <!-- O "Saiba mais" do layout do cliente. Ainda não há página de produto:
+           por ora ele leva ao formulário de orçamento. Quando a página existir,
+           trocar o href aqui. -->
+      <div class="products__more" data-fade>
+        <a href="#orcamento" class="btn btn--pill" data-magnetic>
+          <span>Saiba mais</span>
+        </a>
+      </div>
     </section>
 
     <!-- ══ PROCESSO · SCROLL HORIZONTAL ══════════════════════════ -->
@@ -278,7 +291,7 @@
       <div class="process__inner">
         <div class="process__intro">
           <p class="eyebrow"><span class="dot"></span> Como funciona</p>
-          <h2 class="h2 h2--sm" data-split>Do briefing ao <em>rolo pronto.</em></h2>
+          <h2 class="h2 h2--sm" data-split>Da Venda ao <em>rolo pronto.</em></h2>
         </div>
 
         <div class="process__track">

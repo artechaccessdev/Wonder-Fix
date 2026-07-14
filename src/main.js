@@ -482,12 +482,10 @@ mm.add(DESK, () => {
       ry(gsap.utils.mapRange(0, r.width, -4, 4, e.clientX - r.left));
     });
 
-    // Zoom da imagem e avanço do índice: um só timeline reversível.
+    // Zoom da imagem no hover: timeline reversível.
     const media = card.querySelector(".card__media .ph, .card__media img");
-    const idx = card.querySelector(".card__idx");
     const hover = gsap.timeline({ paused: true })
-      .to(media, { scale: 1.06, duration: 0.8, ease: "power3.out" }, 0)
-      .to(idx, { x: 6, color: "#C58A4E", duration: 0.5 }, 0);
+      .to(media, { scale: 1.06, duration: 0.8, ease: "power3.out" }, 0);
 
     card.addEventListener("pointerenter", () => hover.play());
     card.addEventListener("pointerleave", () => {

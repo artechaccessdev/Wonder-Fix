@@ -62,7 +62,22 @@ npm run build && npx vite preview --port 4173
 node scripts/perf.mjs http://localhost:4173/      # FPS, frames longos, long tasks
 node scripts/profile.mjs http://localhost:4173/   # quais funções consomem CPU
 node scripts/check.mjs http://localhost:4173/     # erros de console e contadores
+node scripts/responsivo.mjs http://localhost:4173/ # 9 larguras, de 320px a 1920px
 ```
+
+### Responsividade
+
+`scripts/responsivo.mjs` abre o site num Chrome real em nove larguras (320, 360,
+390, 430, 600, 768, 1024, 1280, 1920) e reprova o que quebra de verdade: scroll
+lateral, elemento estourando a borda, alvo de toque miúdo, texto abaixo de 12px e
+imagem deformada. As sete primeiras rodam com toque emulado — é isso que faz as
+regras `@media (pointer: coarse)` entrarem; sem emular o dedo, o teste mediria um
+layout que nenhum celular recebe.
+
+O piso de alvo clicável acompanha o apontador, como na WCAG 2.5.8: **44px no
+dedo, 24px no mouse**. Rode o script depois de mexer em qualquer layout. Se
+aparecer scroll lateral, a culpa é quase sempre de largura fixa em `px` ou de um
+grid sem `minmax(0, …)`.
 
 **Meça sempre o build de produção, nunca o dev server** — em dev o Vite serve o
 GSAP como centenas de módulos separados e o resultado não vale nada. A variação

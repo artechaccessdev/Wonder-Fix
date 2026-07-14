@@ -69,7 +69,11 @@ a { color: inherit; text-decoration: none; }
   overflow-wrap: break-word;   /* palavra longa quebra em vez de estourar o mobile */
 }
 
-.hero__title { font-size: clamp(2.4rem, 6.4vw, 6.6rem); }
+/* min(vw, vh): o título é o que decide se o hero cabe na tela. Medido só em vw,
+   numa janela larga e baixa (notebook em 1900x860, por ex.) as quatro linhas
+   comiam a altura toda e o lead + os botões ficavam abaixo da dobra. O teto em
+   vh amarra o tamanho à altura real disponível. */
+.hero__title { font-size: clamp(2.4rem, min(6.4vw, 12.5vh), 6.6rem); }
 .h2          { font-size: clamp(1.9rem, 4.6vw, 4.4rem); }
 .h2--sm      { font-size: clamp(1.7rem, 3vw, 3rem); }
 
@@ -115,11 +119,14 @@ em {
   will-change: transform;
 }
 
+/* Piso de 12px (.75rem) em todo rótulo pequeno do site — eyebrow, índice de
+   card, títulos de rodapé, specs. Abaixo disso o texto em caixa-alta com
+   letter-spacing largo vira ruído no celular, e some para quem enxerga mal. */
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: .6rem;
-  font-size: .72rem;
+  font-size: .75rem;
   font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
@@ -221,13 +228,19 @@ em {
   transform: translateY(101%);
   transition: transform .5s var(--ease);
 }
-.btn:hover::before { transform: translateY(0); }
-.btn:hover { color: var(--navy-deep); }
+/* Todo hover do site vive atrás de (hover: hover). No touch o navegador simula
+   um hover no tap e ele GRUDA: o botão ficava preenchido e o passo do processo
+   ficava destacado até o dedo tocar em outro lugar. Aqui o dispositivo que só
+   tem dedo simplesmente não recebe o efeito. */
+@media (hover: hover) {
+  .btn:hover::before { transform: translateY(0); }
+  .btn:hover { color: var(--navy-deep); }
+  .btn--solid:hover { color: var(--navy-deep); }
+}
 
 .btn--solid { --b: var(--kraft); background: var(--kraft); color: var(--navy-deep); }
 .btn--solid::before { background: var(--paper); }
-.btn--solid:hover { color: var(--navy-deep); }
-.btn--nav { padding: .7rem 1.15rem; font-size: .68rem; }
+.btn--nav { padding: .75rem 1.15rem; font-size: .75rem; }
 .btn--ghost { border-color: color-mix(in srgb, var(--paper) 30%, transparent); }
 .btn--full { width: 100%; grid-column: 1 / -1; }
 
@@ -284,7 +297,9 @@ em {
   padding-top: .75rem;
   padding-bottom: .75rem;
 }
-.nav__logo { display: flex; align-items: center; gap: .7rem; }
+/* min-height 44: a logo é o link para o topo e precisa ser tocável como
+   qualquer outro. A imagem dentro dela continua com 40px de altura. */
+.nav__logo { display: flex; align-items: center; gap: .7rem; min-height: 44px; }
 .nav__name {
   font-family: var(--f-display);
   font-weight: 800;
@@ -292,9 +307,15 @@ em {
   letter-spacing: .04em;
   font-size: .95rem;
 }
-.nav__links { display: flex; gap: 1.8rem; }
+.nav__links { display: flex; gap: 1.8rem; align-items: center; }
+/* O padding vertical dá 44px de área clicável sem mexer no desenho da barra:
+   os links já estavam centralizados, então a altura extra cresce para os dois
+   lados e nada se desloca. */
 .nav__links a {
   position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
   font-size: .78rem;
   font-weight: 500;
   letter-spacing: .06em;
@@ -302,10 +323,12 @@ em {
   color: color-mix(in srgb, var(--paper) 72%, transparent);
   transition: color .3s;
 }
+/* O filete do hover acompanha o texto, não a caixa de 44px: por isso ele é
+   ancorado ao centro (50% + meia altura da linha), e não ao fundo do link. */
 .nav__links a::after {
   content: "";
   position: absolute;
-  left: 0; bottom: -5px;
+  left: 0; top: calc(50% + .75em);
   width: 100%; height: 1px;
   background: var(--kraft);
   transform: scaleX(0);
@@ -315,14 +338,22 @@ em {
 .nav__links a:hover { color: var(--paper); }
 .nav__links a:hover::after { transform: scaleX(1); transform-origin: left; }
 
+/* 44x44 é o mínimo da WCAG 2.5.8 para alvo de toque — antes eram 37x22, e as
+   duas barrinhas eram a área clicável inteira. A área cresce, o desenho não:
+   as barras seguem com 24px, centralizadas. */
 .nav__burger {
   display: none;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
+  width: 44px;
+  height: 44px;
+  margin-right: -.4rem;   /* devolve o alinhamento óptico com a borda da tela */
   background: none;
   border: 0;
   cursor: pointer;
-  padding: .4rem;
+  padding: 0;
 }
 .nav__burger span {
   width: 24px; height: 2px;
@@ -332,24 +363,44 @@ em {
 .nav.is-open .nav__burger span:first-child { transform: translateY(3.5px) rotate(45deg) }
 .nav.is-open .nav__burger span:last-child  { transform: translateY(-3.5px) rotate(-45deg) }
 
+/* Este menu já quebrou no celular deitado: era um grid com align-content:center
+   e sem rolagem. Com a tela baixa, os cinco links ficavam mais altos que a
+   viewport, o primeiro subia por trás da logo e "Orçamento" era cortado embaixo
+   — inalcançável, sem nenhuma forma de chegar nele.
+   Três coisas resolvem, e as três precisam estar juntas:
+     · overflow-y: auto      → se não couber, rola;
+     · justify-content: safe center → centraliza quando cabe, mas ao estourar
+       ancora no topo em vez de sangrar para fora dos dois lados (é isso que o
+       "safe" faz — e é o que o center sozinho não fazia);
+     · o clamp com vh na fonte → em tela baixa a tipografia encolhe e o menu
+       volta a caber sem precisar rolar.                                       */
 .menu {
   position: fixed;
   inset: 0;
   z-index: 890;
   background: var(--navy);
-  display: grid;
-  align-content: center;
-  gap: 1rem;
-  padding: var(--pad);
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  gap: .25rem;
+  /* Topo livre para a barra da nav: sem isso o primeiro link nasce embaixo dela. */
+  padding: calc(4.5rem + env(safe-area-inset-top)) var(--pad)
+           calc(2rem + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;  /* rolar o menu não arrasta a página atrás */
   clip-path: inset(0 0 100% 0);
   transition: clip-path .7s var(--ease);
 }
 .menu.is-open { clip-path: inset(0 0 0 0); }
 .menu a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;              /* alvo de toque */
+  flex: 0 0 auto;                /* não deixa o flex espremer os links */
   font-family: var(--f-display);
   font-weight: 800;
   font-stretch: 85%;
-  font-size: clamp(1.8rem, 8vw, 3rem);
+  font-size: clamp(1.5rem, min(8vw, 7vh), 3rem);
   text-transform: uppercase;
   line-height: 1.05;
 }
@@ -361,7 +412,10 @@ em {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 8rem var(--pad) 2.5rem;
+  /* O respiro do topo só existe para o conteúdo não passar por baixo da nav.
+     Em vh ele encolhe junto com a tela em vez de gastar 128px fixos de altura
+     que faltam lá embaixo. */
+  padding: clamp(5.5rem, 11vh, 8rem) var(--pad) clamp(1.75rem, 3.5vh, 2.5rem);
   overflow: hidden;
 }
 .hero__media { position: absolute; inset: 0; z-index: -1; background: var(--navy-deep); }
@@ -396,7 +450,7 @@ em {
       var(--navy-deep) 100%);
 }
 .hero__content { max-width: 1500px; }
-.hero__title { margin: 1.5rem 0 clamp(2rem, 5vw, 4rem); max-width: 15ch; }
+.hero__title { margin: clamp(.75rem, 1.5vh, 1.5rem) 0 clamp(1.5rem, 4vh, 4rem); max-width: 15ch; }
 .hero__foot {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -418,7 +472,7 @@ em {
   display: flex;
   align-items: center;
   gap: .8rem;
-  font-size: .65rem;
+  font-size: .75rem;
   letter-spacing: .2em;
   text-transform: uppercase;
   writing-mode: vertical-rl;
@@ -542,7 +596,9 @@ em {
   transform-origin: left;
   transition: transform .6s var(--ease);
 }
-.about__pillars li:hover::before { transform: scaleX(1); }
+@media (hover: hover) {
+  .about__pillars li:hover::before { transform: scaleX(1); }
+}
 .about__pn {
   font-family: var(--f-display);
   font-weight: 800;
@@ -568,22 +624,39 @@ em {
 .products { background: var(--paper); color: var(--ink); padding-bottom: clamp(5rem, 10vw, 9rem); }
 .products .eyebrow { color: color-mix(in srgb, var(--ink) 55%, transparent); }
 
-/* Grid deliberadamente assimétrico. Três cards iguais = cara de IA. */
+/* Layout aprovado pelo cliente: três cards brancos iguais, a foto emoldurada
+   dentro do card e o "Saiba mais" fechando a seção embaixo da grade. */
 .products__grid {
   padding: 0 var(--pad);
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: var(--gut);
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.25rem, 2.5vw, 2rem);
   perspective: 1200px;   /* dá volume à inclinação dos cards no hover */
 }
 .card {
-  grid-column: span 2;
   display: flex;
   flex-direction: column;
   transform-style: preserve-3d;
+  background: #fff;
+  border-radius: 14px;
+  padding: .85rem;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 6%, transparent),
+              0 12px 32px -18px color-mix(in srgb, var(--ink) 40%, transparent);
+  transition: box-shadow .5s var(--ease);
+}
+@media (hover: hover) {
+  .card:hover {
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 8%, transparent),
+                0 26px 54px -24px color-mix(in srgb, var(--ink) 50%, transparent);
+  }
 }
 
-.card__media { overflow: hidden; margin-bottom: 1.2rem; background: var(--navy); }
+.card__media {
+  overflow: hidden;
+  margin-bottom: 1.1rem;
+  background: var(--navy);
+  border-radius: 8px;
+}
 /* 116%, não 100%: o parallax do main.js sobe a imagem em yPercent -8 enquanto a
    página rola. Com a imagem do tamanho exato do quadro, esses 8% descobriam o
    fundo navy do .card__media — uma faixa azul aparecia sob a foto. A folga é o
@@ -593,33 +666,51 @@ em {
   height: 116%;
   object-fit: cover;
 }
-/* Quadrado: é a proporção que respeita as fotos sem cortar nem inventar fundo. */
-.card .card__media { aspect-ratio: 1 / 1; }
+/* Paisagem: é o recorte do layout de referência — a foto vira faixa, não quadro. */
+.card .card__media { aspect-ratio: 4 / 3; }
 /* O zoom da imagem no hover é feito no GSAP (main.js): o parallax de scroll já
    escreve transform inline neste elemento, e um transform vindo do CSS seria
    ignorado. Manter tudo num só lugar evita a briga. */
 
-.card__idx {
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-size: .72rem;
-  letter-spacing: .1em;
-  color: var(--blue);
-  display: block;
-  margin-bottom: .5rem;
-}
+.card__info { padding: 0 .55rem .9rem; }
 .card__info h3 {
   font-family: var(--f-display);
   font-weight: 700;
   font-stretch: 90%;
-  font-size: clamp(1.05rem, 1.6vw, 1.45rem);
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
   letter-spacing: -.01em;
-  margin-bottom: .4rem;
+  color: var(--navy-deep);
+  margin-bottom: .5rem;
 }
-.card__info p { font-size: .88rem; color: color-mix(in srgb, var(--ink) 65%, transparent); max-width: 42ch; }
+.card__info p {
+  font-size: .84rem;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--ink) 62%, transparent);
+  max-width: 42ch;
+}
+
+/* O botão fecha a seção, centrado sob os três cards. Pílula escura: é o único
+   ponto do site onde o cliente pediu canto redondo — veio do layout dele. */
+.products__more {
+  display: flex;
+  justify-content: center;
+  padding: clamp(2.5rem, 5vw, 3.75rem) var(--pad) 0;
+}
+.btn--pill {
+  --b: var(--navy-deep);
+  background: var(--navy-deep);
+  color: var(--paper);
+  border-radius: 999px;
+  padding: 1.05rem 2.4rem;
+  box-shadow: 0 14px 30px -18px color-mix(in srgb, var(--ink) 70%, transparent);
+}
+.btn--pill::before { background: var(--kraft); }
+@media (hover: hover) {
+  .btn--pill:hover { color: var(--navy-deep); }
+}
 
 .spec { display: flex; flex-wrap: wrap; gap: 0 2.2rem; margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); }
-.spec dt { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--ink) 45%, transparent); margin-bottom: .15rem; }
+.spec dt { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--ink) 45%, transparent); margin-bottom: .15rem; }
 .spec dd { font-family: var(--f-display); font-weight: 700; font-size: .95rem; }
 
 /* ── PROCESSO ───────────────────────────────────────────────────
@@ -685,19 +776,21 @@ em {
 .step footer {
   padding-top: 1rem;
   border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
-  font-size: .74rem;
+  font-size: .75rem;
   letter-spacing: .04em;
   color: color-mix(in srgb, var(--kraft) 90%, white);
 }
 
 /* Destaque no hover. Nunca apagando os vizinhos — foi o que tornou esta
    seção ilegível na versão anterior. */
-.step:hover {
-  background: color-mix(in srgb, var(--navy) 95%, transparent);
-  border-color: color-mix(in srgb, var(--kraft) 55%, transparent);
-  border-top-color: var(--kraft);
+@media (hover: hover) {
+  .step:hover {
+    background: color-mix(in srgb, var(--navy) 95%, transparent);
+    border-color: color-mix(in srgb, var(--kraft) 55%, transparent);
+    border-top-color: var(--kraft);
+  }
+  .step:hover .step__n { color: var(--kraft); }
 }
-.step:hover .step__n { color: var(--kraft); }
 
 /* ── SEGMENTOS ──────────────────────────────────────────────── */
 .sectors { background: var(--navy-deep); padding-bottom: clamp(4rem, 9vw, 8rem); }
@@ -719,12 +812,14 @@ em {
 }
 .sectors__list li:last-child { border-bottom: 1px solid color-mix(in srgb, var(--paper) 12%, transparent); }
 .sectors__list li span {
-  font-size: .7rem;
+  font-size: .75rem;
   font-weight: 800;
   color: var(--blue-soft);
   letter-spacing: .1em;
 }
-.sectors__list li:hover { color: var(--kraft); padding-left: 1.2rem; }
+@media (hover: hover) {
+  .sectors__list li:hover { color: var(--kraft); padding-left: 1.2rem; }
+}
 
 /* ── DEPOIMENTO ─────────────────────────────────────────────── */
 .quote {
@@ -760,6 +855,15 @@ em {
 .cta__title { font-size: clamp(2.2rem, 5.5vw, 5rem); }
 .cta__lead { margin: 1.8rem 0; max-width: 40ch; color: color-mix(in srgb, var(--ink) 70%, transparent); }
 .cta__direct { display: grid; gap: .5rem; font-size: .92rem; }
+/* 24px é o piso de alvo clicável da WCAG 2.5.8 (AA) mesmo no mouse. A linha
+   de texto dava 23,5px — passava raspando por baixo. No toque, a regra de
+   pointer:coarse lá embaixo leva isto para 44px. */
+.cta__direct a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  width: fit-content;
+}
 .cta__wa { font-weight: 600; color: var(--blue); }
 .cta__wa:hover { color: var(--kraft); }
 
@@ -815,7 +919,7 @@ em {
   justify-content: center;
   margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
-.footer__logo { width: clamp(190px, 22vw, 300px); height: auto; }
+.footer__logo { width: clamp(140px, 15vw, 210px); height: auto; }
 
 .footer__cols {
   display: grid;
@@ -824,15 +928,23 @@ em {
   padding-bottom: 2.5rem;
 }
 .footer__cols h4 {
-  font-size: .68rem;
+  font-size: .82rem;
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--kraft);
-  margin-bottom: .8rem;
+  margin-bottom: 1rem;
   font-weight: 600;
 }
-.footer__cols p { font-size: .88rem; line-height: 1.7; color: color-mix(in srgb, var(--paper) 62%, transparent); }
-.footer__cols a:hover { color: var(--kraft); }
+.footer__cols p { font-size: 1rem; line-height: 1.75; color: color-mix(in srgb, var(--paper) 78%, transparent); }
+/* Telefone e e-mail são links: valem o mesmo piso de 24px do resto (44 no toque). */
+.footer__cols a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+}
+@media (hover: hover) {
+  .footer__cols a:hover { color: var(--kraft); }
+}
 
 /* Centrada também: com o resto no eixo, o "space-between" deixava as duas pontas
    penduradas nos cantos, brigando com o alinhamento do bloco inteiro. */
@@ -844,8 +956,8 @@ em {
   gap: .6rem 1.4rem;
   padding-top: 1.8rem;
   border-top: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
-  font-size: .72rem;
-  color: color-mix(in srgb, var(--paper) 42%, transparent);
+  font-size: .85rem;
+  color: color-mix(in srgb, var(--paper) 55%, transparent);
 }
 
 /* ── WHATSAPP FLUTUANTE ─────────────────────────────────────────
@@ -858,8 +970,11 @@ em {
 .wa {
   --wa: #25D366;
   position: fixed;
-  right: clamp(1rem, 2.5vw, 2rem);
-  bottom: clamp(1rem, 2.5vw, 2rem);
+  /* env() = a "área segura" do aparelho: barra de gestos do iPhone embaixo,
+     notch/ilha nas laterais quando deitado. Sem o max(), o botão ficava por
+     baixo da barra do iOS e metade dele não recebia o toque. */
+  right: max(clamp(1rem, 2.5vw, 2rem), env(safe-area-inset-right));
+  bottom: max(clamp(1rem, 2.5vw, 2rem), env(safe-area-inset-bottom));
   z-index: 60;
 
   display: flex;
@@ -910,7 +1025,15 @@ em {
   pointer-events: none;
 }
 
-/* ── RESPONSIVO ─────────────────────────────────────────────── */
+/* ── RESPONSIVO ─────────────────────────────────────────────────
+   Três faixas, e cada uma existe por um motivo medido — não por gosto:
+     ≤980px  o menu vira hambúrguer e as grades de várias colunas empilham;
+     601–980 o tablet recupera colunas: empilhar tudo num iPad é desperdiçar
+             metade da tela e transformar a página numa fita quilométrica;
+     ≤600px  celular de pé, coluna única de verdade.
+   Testado de 320px a 1920px com scripts/responsivo.mjs — rode depois de mexer
+   aqui. Se aparecer scroll lateral, a culpa é quase sempre de largura fixa em
+   px ou de um grid sem minmax(0, …).                                          */
 @media (max-width: 980px) {
   /* No celular não existe hover: o botão fica só o círculo, sem rótulo. */
   .wa { height: 52px; padding: 0; width: 52px; justify-content: center; }
@@ -943,6 +1066,71 @@ em {
   .cta { grid-template-columns: 1fr; }
   .form { grid-template-columns: 1fr; }
   .footer__cols { grid-template-columns: 1fr; }
+
+  /* 16px NÃO é escolha estética: abaixo disso o Safari do iPhone dá zoom
+     sozinho quando o dedo toca o campo, e a página fica torta e fora de
+     lugar depois. É o bug de formulário mais comum em site de celular. */
+  .field input, .field textarea { font-size: 16px; }
+}
+
+/* ── TABLET (601–980) ────────────────────────────────────────────
+   Vem depois do bloco acima de propósito: recupera as colunas que o empilhamento
+   geral tinha derrubado. Um iPad tem largura de sobra para dois de cada coisa. */
+@media (min-width: 601px) and (max-width: 980px) {
+  .about__pillars {
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .about__pillars li { padding-block: 0; padding-top: 1.6rem; }
+  .process__track { grid-template-columns: 1fr 1fr; }   /* 2x2, não 4 empilhados */
+  .footer__cols { grid-template-columns: repeat(3, 1fr); }
+  .form { grid-template-columns: 1fr 1fr; }
+  .stats { grid-template-columns: repeat(4, 1fr); }
+  .stat:nth-child(-n+2) { border-bottom: 0; }
+  .stat:nth-child(2n) { border-right: 1px solid color-mix(in srgb, var(--paper) 10%, transparent); }
+  .stat:last-child { border-right: 0; }
+}
+
+/* ── CELULAR DEITADO / TELA BAIXA ────────────────────────────────
+   O hero pedia 100svh de altura + 8rem de padding no topo. Num aparelho
+   deitado (390px de altura) isso é a tela inteira só de respiro, e o botão
+   de orçamento nascia abaixo da dobra. Em tela baixa o hero passa a caber. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero {
+    min-height: auto;
+    padding-top: 5.5rem;
+    padding-bottom: 2rem;
+  }
+  .hero__title {
+    font-size: clamp(1.6rem, 4.2vw, 2.6rem);
+    margin-bottom: 1.5rem;
+    max-width: 22ch;
+  }
+  .hero__foot { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+  .section__head { padding-top: clamp(3rem, 8vh, 5rem); }
+
+  /* Deitado o notch fica na lateral: --pad passa a respeitar a área segura,
+     senão a primeira letra de cada linha some por baixo da câmera. */
+  :root {
+    --pad: max(clamp(1.25rem, 5vw, 5.5rem),
+               env(safe-area-inset-left), env(safe-area-inset-right));
+  }
+}
+
+/* ── ALVO DE TOQUE ───────────────────────────────────────────────
+   Vale por dispositivo, não por largura: um tablet grande tem 1024px de tela
+   e mesmo assim é tocado com o dedo. Os links de contato eram linha de texto
+   solta com 24px de altura — quase impossível de acertar. O padding cresce
+   dentro do próprio bloco, então nada se desloca no layout. */
+@media (pointer: coarse) {
+  .cta__direct a,
+  .footer__cols a,
+  .footer__bar a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .cta__direct { gap: 0; }
 }
 
 /* ── ACESSIBILIDADE: quem pediu menos movimento, recebe menos ── */
