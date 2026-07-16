@@ -446,7 +446,9 @@ mm.add(MOTION, () => {
    CARDS DE PRODUTO — entrada alternada (esquerda / direita)
    ───────────────────────────────────────────────────────────── */
 mm.add(DESK, () => {
-  gsap.utils.toArray(".card").forEach((card, i) => {
+  // :not(.card--extra) — os 3 cards escondidos têm a própria entrada quando o
+  // "Mais produtos" os revela. Deixá-los aqui criaria uma animação concorrente.
+  gsap.utils.toArray(".card:not(.card--extra)").forEach((card, i) => {
     gsap.from(card, {
       xPercent: i % 2 === 0 ? -8 : 8,
       yPercent: 12,
@@ -460,7 +462,7 @@ mm.add(DESK, () => {
 
 mm.add(MOBI, () => {
   // No celular não há espaço lateral: entrada vertical, mais curta.
-  gsap.from(".card", {
+  gsap.from(".card:not(.card--extra)", {
     y: 40,
     opacity: 0,
     duration: 0.9,
@@ -494,6 +496,107 @@ mm.add(DESK, () => {
     });
   });
 });
+
+/* ─────────────────────────────────────────────────────────────
+   MODAL DE PRODUTO — clicar num card abre a descrição ampliada
+   O conteúdo longo vem de .card__detail (escondido dentro do card).
+   Ao abrir, trava a rolagem da página (lenis.stop) e devolve o foco
+   ao card quando fecha — quem usa teclado não fica perdido.
+   ───────────────────────────────────────────────────────────── */
+const pmodal   = document.getElementById("productModal");
+if (pmodal) {
+  const pmImg   = document.getElementById("pmImg");
+  const pmTitle = document.getElementById("pmTitle");
+  const pmDesc  = document.getElementById("pmDesc");
+  const pmClose = document.getElementById("pmClose");
+  const pmBack  = document.getElementById("pmBack");
+  const pmQuote = document.getElementById("pmQuote");
+  let lastCard  = null;
+
+  function openProduct(card) {
+    const img    = card.querySelector(".card__media img");
+    const title  = card.querySelector(".card__info h3");
+    const detail = card.querySelector(".card__detail");
+
+    pmImg.src   = img ? img.src : "";
+    pmImg.alt   = img ? img.alt : "";
+    pmTitle.textContent = title ? title.textContent : "";
+    pmDesc.innerHTML    = detail ? detail.innerHTML : "";
+
+    lastCard = card;
+    pmodal.hidden = false;
+    // Força um frame antes da classe, para a transição de opacidade rodar.
+    requestAnimationFrame(() => pmodal.classList.add("is-open"));
+    if (lenis) lenis.stop();
+    pmClose.focus();
+  }
+
+  function closeProduct() {
+    pmodal.classList.remove("is-open");
+    if (lenis) lenis.start();
+    // Espera a transição terminar antes de esconder de vez.
+    setTimeout(() => { pmodal.hidden = true; }, 460);
+    if (lastCard) lastCard.focus();
+  }
+
+  document.querySelectorAll(".products__grid .card").forEach((card) => {
+    card.addEventListener("click", () => openProduct(card));
+    // Enter/Espaço abrem também — o card é role="button".
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openProduct(card);
+      }
+    });
+  });
+
+  pmClose.addEventListener("click", closeProduct);
+  pmBack.addEventListener("click", closeProduct);
+  // "Solicitar orçamento" leva ao formulário: fecha o modal antes de rolar.
+  pmQuote.addEventListener("click", closeProduct);
+  // Clicar no fundo borrado (fora do painel) fecha.
+  pmodal.addEventListener("click", (e) => {
+    if (e.target === pmodal) closeProduct();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && pmodal.classList.contains("is-open")) closeProduct();
+  });
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MAIS PRODUTOS — a grade abre com 3 e revela os outros 3 a pedido
+   Evita a poluição de mostrar as seis linhas de uma vez. Os cards
+   extras já existem no HTML (só com [hidden]); aqui a gente os mostra
+   e anima a entrada. Clicar de novo recolhe.
+   ───────────────────────────────────────────────────────────── */
+const moreBtn = document.getElementById("moreProducts");
+if (moreBtn) {
+  const extras = document.querySelectorAll(".card--extra");
+  const label  = moreBtn.querySelector("span");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let shown = false;
+
+  moreBtn.addEventListener("click", () => {
+    shown = !shown;
+    moreBtn.setAttribute("aria-expanded", String(shown));
+    label.textContent = shown ? "Mostrar menos" : "Mais produtos";
+
+    if (shown) {
+      extras.forEach((c) => (c.hidden = false));
+      if (!reduce) {
+        gsap.from(extras, {
+          y: 40, opacity: 0, duration: 0.8, stagger: 0.12, ease: "power3.out",
+        });
+      }
+      ScrollTrigger.refresh();          // a página cresceu — recalibra os gatilhos
+    } else {
+      extras.forEach((c) => (c.hidden = true));
+      ScrollTrigger.refresh();
+      // Volta o olhar para o botão, que subiu junto com a grade recolhida.
+      if (lenis) lenis.scrollTo(moreBtn, { offset: -160 });
+    }
+  });
+}
 
 /* ─────────────────────────────────────────────────────────────
    PROCESSO — os quatro passos entram em cascata

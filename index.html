@@ -228,23 +228,42 @@
         <h2 class="h2" data-split>Tudo sai daqui <em>com a sua marca.</em></h2>
       </div>
 
+      <!-- Cada card é clicável (role=button + tabindex) e abre o modal de produto.
+           A descrição longa mora escondida em .card__detail — o JS (main.js) copia
+           dali para o modal. Para editar o texto expandido, mexa no .card__detail
+           do produto correspondente. -->
       <div class="products__grid">
-        <article class="card">
+        <article class="card" role="button" tabindex="0" aria-haspopup="dialog">
           <div class="card__media">
             <img src="/images/produtos/caixa-v2.webp"
                  alt="Caixas de papelão kraft com a marca Wonder Fix impressa"
                  width="900" height="900" loading="lazy" />
           </div>
           <div class="card__info">
-            <h3>Caixa personalizada</h3>
+            <h3>Caixas de papelão diversas</h3>
             <p>
-              Papelão kraft com a sua marca impressa direto na caixa. Da caixa de mudança
-              à de delivery — a embalagem chega falando o nome de quem enviou.
+              O uso de caixas de papelão diversas é necessário para o embrulho de diferentes tipos de objetos.
             </p>
+            <span class="card__cta">Ver detalhes <i>→</i></span>
+          </div>
+          <div class="card__detail" hidden>
+            <p>
+              Há variados tipos de produtos que necessitam ser embalados para serem entregues ou vendidos. Proteger os itens por meio
+              de plástico bolha, caixas e outros é algo necessário para evitar prejuízos.
+            </p>
+            <p>
+              As caixas de papelão diversas tem dimensões variadas para que possam envolver as mercadorias. Garantir que as peças
+              cheguem em bom estado nos locais é essencial para satisfazer os clientes de forma adequada.
+            </p>
+            <ul>
+              <li>Onda simples, dupla ou tripla</li>
+              <li>Medidas sob encomenda</li>
+              <li>Impressão da arte inclusa, sem custo de layout</li>
+            </ul>
           </div>
         </article>
 
-        <article class="card">
+        <article class="card" role="button" tabindex="0" aria-haspopup="dialog">
           <div class="card__media">
             <img src="/images/produtos/sinalizacao.webp"
                  alt="Rolos de fita zebrada amarelo e preto e verde e branco para sinalização"
@@ -253,13 +272,29 @@
           <div class="card__info">
             <h3>Fita de sinalização</h3>
             <p>
-              Zebrada, para demarcar piso, corredor e área de risco. Amarelo-preto
-              e verde-branco, em rolo largo.
+              Necessárias por segmentos variados, as fitas adesivas de segurança são materiais indispensáveis para o isolamento de
+              áreas.
             </p>
+            <span class="card__cta">Ver detalhes <i>→</i></span>
+          </div>
+          <div class="card__detail" hidden>
+            <p>
+              Desde acidentes de automóveis até obras de infraestruturas oferecem riscos às pessoas que estão ao seu redor. Muitos
+              profissionais de áreas variadas tem obrigação de proteger esses locais e os indivíduos que estão próximos.
+            </p>
+            <p>
+              Por mais que nem sempre sejam usadas para indicar perigos eminentes, estes objetos devem ser respeitados. Muitas vezes
+              os profissionais usam as fitas adesivas de segurança somente na intenção de identificar uma área de risco.
+            </p>
+            <ul>
+              <li>Amarelo-preto (atenção) e verde-branco (rota segura)</li>
+              <li>Rolo largo para faixa contínua no chão</li>
+              <li>Também em versão para isolamento de área</li>
+            </ul>
           </div>
         </article>
 
-        <article class="card">
+        <article class="card" role="button" tabindex="0" aria-haspopup="dialog">
           <div class="card__media">
             <img src="/images/produtos/fita-personalizada.webp"
                  alt="Rolo de fita adesiva com a marca Wonder Fix impressa, lacrando uma caixa branca"
@@ -268,13 +303,28 @@
           <div class="card__info">
             <h3>Fita adesiva personalizada</h3>
             <p>
-              Sua marca impressa no lacre. Transparente ou colorida, do rolo de escritório
-              ao industrial.
+              Personalizar fitas adesivas com logomarca é uma forma de empresas protegerem seus produtos.
             </p>
+            <span class="card__cta">Ver detalhes <i>→</i></span>
+          </div>
+          <div class="card__detail" hidden>
+            <p>
+              O uso de fitas adesivas com logomarcas por parte das empresas é uma prática que apesar de não ser obrigatória, pode ser
+              vantajosa. A inserção de fita adesiva com logomarca torna o embrulho uma assinatura da empresa responsável.
+            </p>
+            <p>
+              Esse material pode ser encontrado em diferentes tamanhos e cores, permitindo criações variadas. Todavia, na grande
+              maioria dos casos são usadas para padronizar a identidade visual de uma embalagem.
+            </p>
+            <ul>
+              <li>Acrílica ou hot melt</li>
+              <li>Transparente, marrom ou colorida</li>
+              <li>Teste de adesão e tração com laudo</li>
+            </ul>
           </div>
         </article>
 
-        <article class="card">
+        <article class="card card--extra" role="button" tabindex="0" aria-haspopup="dialog" hidden>
           <div class="card__media">
             <img src="/images/produtos/fita-gomada.webp"
                  alt="Rolo de fita gomada de papel kraft para fechamento de caixas"
@@ -283,13 +333,28 @@
           <div class="card__info">
             <h3>Fita gomada</h3>
             <p>
-              Papel kraft que cola no papelão e vira parte da caixa. Aguenta umidade
-              e calor, e para abrir tem que rasgar — quem violou não esconde.
+              Diferente de outros modelos, a fita gomada para fechamento de caixas é feita em papel kraft.
             </p>
+            <span class="card__cta">Ver detalhes <i>→</i></span>
+          </div>
+          <div class="card__detail" hidden>
+            <p>
+              Para lacrar as caixas de papelão, empresas sempre acaba utilizando as fitas no processo. Sejam fitas adesivas ou outros
+              modelos, o importante neste caso é garantir a proteção dos materiais.
+            </p>
+            <p>
+              Feita a partir de papel kraft com alguns modelos revestidos em poliéster, esse item garante a segurança dos itens. Além
+              de ser mais discreta por ter uma cor semelhante à das caixas, sua aderência é extremamente forte.
+            </p>
+            <ul>
+              <li>Lisa ou reforçada com fio</li>
+              <li>Resiste a umidade e variação de temperatura</li>
+              <li>Também personalizável com a sua marca</li>
+            </ul>
           </div>
         </article>
 
-        <article class="card">
+        <article class="card card--extra" role="button" tabindex="0" aria-haspopup="dialog" hidden>
           <div class="card__media">
             <img src="/images/produtos/fitilhos.webp"
                  alt="Rolos de fitilho de polipropileno para amarração de volumes"
@@ -298,13 +363,28 @@
           <div class="card__info">
             <h3>Fitilho para amarração</h3>
             <p>
-              Polipropileno para amarrar volume, fardo e mudança. Rolo de 280 metros,
-              em várias cores e espessuras — segura o que o arame seguraria.
+              Apesar da aparência frágil, os fitilhos para amarração de embalagens produtos são altamente resistentes.
             </p>
+            <span class="card__cta">Ver detalhes <i>→</i></span>
+          </div>
+          <div class="card__detail" hidden>
+            <p>
+              O material utilizado neste produto é o propileno, que também compõe as fitas adesivas. Isso faz com que estes fitilhos
+              para amarração de embalagens sejam duráveis e capazes de resistir à fatores diversos.
+            </p>
+            <p>
+              Logo, além de garantir uma preservação maior das embalagens, os fitilhos são objetos que ajudam o meio ambiente. Pode
+              ser encontrado em tamanhos, espessuras e cores diversas e cada pequeno rolo destes possui cerca de 280 metros.
+            </p>
+            <ul>
+              <li>Rolos de 280 metros</li>
+              <li>Várias cores para separar lotes por destino</li>
+              <li>Espessuras diferentes conforme a carga</li>
+            </ul>
           </div>
         </article>
 
-        <article class="card">
+        <article class="card card--extra" role="button" tabindex="0" aria-haspopup="dialog" hidden>
           <div class="card__media">
             <!-- TROCAR AQUI · foto provisória de banco, baixa resolução.
                  Ver o aviso em scripts/produtos.mjs. -->
@@ -315,9 +395,24 @@
           <div class="card__info">
             <h3>Plástico bolha</h3>
             <p>
-              Bobina para o que quebra: vidro, cerâmica, eletrônico. Largura cortada
-              no tamanho do que você embala, sem sobra jogada fora.
+              Conhecido por ser quase uma terapia para muitos, o plástico bolha para embalagens é um material indispensável.
             </p>
+            <span class="card__cta">Ver detalhes <i>→</i></span>
+          </div>
+          <div class="card__detail" hidden>
+            <p>
+              Utilizado para proteger itens que serão transportados, o plástico bolha para embalagens é um revestimento de alta
+              eficácia. Normalmente é usado para envolver peças como vidros e cerâmicas, a fim de reduzir seu impacto.
+            </p>
+            <p>
+              Podendo ser adquirido em bobinas de tamanhos variados, é possível usar o plástico bolha para embalagens diversas. É
+              necessário que se tome cuidado com o peso dos objetos que serão envoltos, para que se evitem acidentes.
+            </p>
+            <ul>
+              <li>Largura cortada sob medida</li>
+              <li>Bolha pequena ou grande conforme a fragilidade</li>
+              <li>Fornecimento em bobina para linha de embalagem</li>
+            </ul>
           </div>
         </article>
 
@@ -325,8 +420,14 @@
 
       <!-- O "Saiba mais" do layout do cliente. Ainda não há página de produto:
            por ora ele leva ao formulário de orçamento. Quando a página existir,
-           trocar o href aqui. -->
+           trocar o href aqui.
+           "Mais produtos" revela os 3 cards .card--extra (ver main.js) — a grade
+           abre com 3 e só mostra os outros 3 a pedido, pra não poluir. -->
       <div class="products__more" data-fade>
+        <button type="button" class="btn btn--pill btn--outline" id="moreProducts"
+                aria-expanded="false" aria-controls="produtos">
+          <span>Mais produtos</span>
+        </button>
         <a href="#orcamento" class="btn btn--pill" data-magnetic>
           <span>Saiba mais</span>
         </a>
@@ -389,22 +490,6 @@
       </ul>
     </section>
 
-    <!-- ══ DEPOIMENTO ════════════════════════════════════════════ -->
-    <section class="quote">
-      <!-- TROCAR AQUI · DEPOIMENTO REAL, com nome, cargo e empresa. Sem isso, remova a seção. -->
-      <blockquote data-split>
-        “A caixa chega fechada e com a nossa cara.
-        Em três anos, <em>zero</em> reclamação de lacre violado.”
-      </blockquote>
-      <figcaption>
-        <div class="ph ph--avatar" data-ph="FOTO"></div>
-        <div>
-          <b>[Nome do cliente]</b>
-          <span>[Cargo] · [Empresa]</span>
-        </div>
-      </figcaption>
-    </section>
-
     <!-- ══ ORÇAMENTO ═════════════════════════════════════════════ -->
     <section class="cta" id="orcamento">
       <div class="cta__left">
@@ -446,6 +531,29 @@
       </form>
     </section>
   </main>
+
+  <!-- ══ MODAL DE PRODUTO ════════════════════════════════════════
+       Vazio de propósito: o main.js preenche imagem, título e descrição
+       a partir do card clicado. Fundo borrado + botão "Voltar" pra sair.  -->
+  <div class="pmodal" id="productModal" role="dialog" aria-modal="true"
+       aria-labelledby="pmTitle" hidden>
+    <div class="pmodal__panel" data-lenis-prevent>
+      <button type="button" class="pmodal__x" id="pmClose" aria-label="Fechar descrição">×</button>
+      <div class="pmodal__media">
+        <img id="pmImg" src="" alt="" />
+      </div>
+      <div class="pmodal__body">
+        <h3 class="pmodal__title" id="pmTitle"></h3>
+        <div class="pmodal__desc" id="pmDesc"></div>
+        <div class="pmodal__actions">
+          <a href="#orcamento" class="btn btn--solid" id="pmQuote" data-magnetic>
+            <span>Solicitar orçamento</span>
+          </a>
+          <button type="button" class="btn btn--ghost" id="pmBack">Voltar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ══ FOOTER ══════════════════════════════════════════════════ -->
   <footer class="footer">
