@@ -168,22 +168,30 @@ if (REDUCED) {
   const counter = { v: 0 };
   gsap.set(preloader, { clipPath: "inset(0 0 0% 0)" });
 
+  // Preloader reduzido a ~1/3 do tempo original (2,7s → ~0,9s até o título
+  // aparecer). No relatório do PageSpeed, o LCP era o próprio H1 do hero, e
+  // "atraso de renderização" (não rede) respondia por quase 3s do total: o
+  // título só começava a subir quando esta timeline já tinha passado de 1,7s.
+  // A ordem (contagem → cortina abre → bootHero) continua igual, só mais
+  // rápida — testado que chamar bootHero em paralelo (fora desta timeline)
+  // empilhava o split do H1 em cima do resto do boot síncrono do main.js e
+  // piorava o LCP em vez de melhorar.
   gsap.timeline()
     .to(counter, {
       v: 100,
-      duration: 1.5,
+      duration: 0.5,
       ease: "power2.inOut",
       onUpdate: () => (preCount.textContent = Math.round(counter.v)),
     }, 0)
-    .to(preBar, { width: "100%", duration: 1.5, ease: "power2.inOut" }, 0)
-    .to(".preloader__inner", { y: -30, opacity: 0, duration: 0.6, ease: "power2.in" }, 1.5)
+    .to(preBar, { width: "100%", duration: 0.5, ease: "power2.inOut" }, 0)
+    .to(".preloader__inner", { y: -30, opacity: 0, duration: 0.25, ease: "power2.in" }, 0.5)
     .to(preloader, {
       clipPath: "inset(0 0 100% 0)",
-      duration: 1,
+      duration: 0.45,
       ease: "power4.inOut",
       onStart: bootHero,
       onComplete: () => (preloader.style.display = "none"),
-    }, 1.7);
+    }, 0.6);
 }
 
 /* HERO — profundidade no scroll.

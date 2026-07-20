@@ -44,9 +44,15 @@
   <link rel="apple-touch-icon" href="/brand/favicon.png" />
   <link rel="manifest" href="/site.webmanifest" />
 
+  <!-- display=optional (não "swap"): a fonte só entra se chegar a tempo do
+       primeiro paint; se não chegar, a página fica no fallback o tempo todo,
+       sem trocar depois. "swap" foi o que causava o CLS de 0,25 no relatório
+       — o Lighthouse aponta a própria .hero__content como o elemento que
+       pulava quando o Archivo/Inter terminava de baixar e o texto reflowava
+       para as novas métricas da fonte. "optional" elimina essa troca tardia. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@400;500;600&display=optional" rel="stylesheet" />
 
   <!-- ── Dados estruturados (Schema.org) ───────────────────────────
        Grafo único: a empresa (LocalBusiness), o site (WebSite) e o
@@ -128,7 +134,7 @@
   <!-- ══ PRELOADER ═══════════════════════════════════════════════ -->
   <div class="preloader" id="preloader">
     <div class="preloader__inner">
-      <img class="preloader__mark" src="/brand/logo-symbol-light.png" alt="" width="150" height="70" />
+      <img class="preloader__mark" src="/brand/logo-symbol-light.webp" alt="" width="150" height="70" />
       <span class="preloader__word">WONDER FIX</span>
       <span class="preloader__count" id="preCount">0</span>
     </div>
@@ -141,7 +147,7 @@
   <!-- ══ NAV ═════════════════════════════════════════════════════ -->
   <header class="nav" id="nav">
     <a href="#top" class="nav__logo" aria-label="Wonder Fix — início">
-      <img class="nav__mark" src="/brand/logo-symbol-light.png" alt="Wonder Fix" width="86" height="40" />
+      <img class="nav__mark" src="/brand/logo-symbol-light.webp" alt="Wonder Fix" width="86" height="40" />
       <span class="nav__name">WONDER FIX</span>
     </a>
     <nav class="nav__links">
@@ -272,7 +278,7 @@
         </div>
 
         <figure class="about__sign">
-          <img class="about__seal" src="/brand/logo-symbol-light.png"
+          <img class="about__seal" src="/brand/logo-symbol-light.webp"
                alt="Wonder Fix" width="130" height="60" loading="lazy" />
           <figcaption>
             <b>Nossa marca, sua segurança</b>
