@@ -39,6 +39,13 @@
   <meta name="twitter:image" content="https://www.wonderfix.com.br/og.jpg" />
   <meta name="twitter:image:alt" content="Wonder Fix — fita adesiva personalizada com a sua marca impressa no lacre" />
 
+  <!-- O LCP do relatório é o próprio vídeo do hero (a área do poster antes de
+       o vídeo assumir). Sem preload, o navegador só descobre esse recurso
+       depois de processar o <video> lá no meio do body — daí o "Descoberta
+       de solicitações de LCP" no relatório. fetchpriority=high pula a fila
+       de recursos de baixa prioridade também. -->
+  <link rel="preload" as="image" href="/images/hero-poster.webp" fetchpriority="high" />
+
   <!-- ── Ícones ────────────────────────────────────────────────── -->
   <link rel="icon" type="image/png" sizes="512x512" href="/brand/favicon.png" />
   <link rel="apple-touch-icon" href="/brand/favicon.png" />
@@ -52,7 +59,21 @@
        para as novas métricas da fonte. "optional" elimina essa troca tardia. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@400;500;600&display=optional" rel="stylesheet" />
+
+  <!-- Carregado sem bloquear a renderização (padrão "loadCSS"): o navegador
+       busca a folha com prioridade alta via preload, mas só aplica quando
+       chega — media="print" faz esta tag não valer nada na tela até o onload
+       trocar para "all". Sem isso o <link rel=stylesheet> comum trava o
+       primeiro paint esperando essa requisição, mesmo com display=optional
+       (o relatório apontava ~1.350ms perdidos só nisso, no mobile). -->
+  <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@400;500;600&display=optional" />
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@400;500;600&display=optional"
+        media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@400;500;600&display=optional" />
+  </noscript>
 
   <!-- ── Dados estruturados (Schema.org) ───────────────────────────
        Grafo único: a empresa (LocalBusiness), o site (WebSite) e o
