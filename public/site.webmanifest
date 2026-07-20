@@ -1,0 +1,19 @@
+{
+  "name": "Wonder Fix — Fitas e Embalagens Personalizadas",
+  "short_name": "Wonder Fix",
+  "description": "Fábrica de fita adesiva personalizada e embalagens sob medida desde 2003.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#08132B",
+  "theme_color": "#08132B",
+  "icons": [
+    {
+      "src": "/brand/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

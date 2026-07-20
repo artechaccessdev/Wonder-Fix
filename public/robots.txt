@@ -1,0 +1,7 @@
+# Wonder Fix — regras para robôs de busca
+# Tudo liberado para indexação. Ajuste aqui se criar áreas privadas.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://www.wonderfix.com.br/sitemap.xml

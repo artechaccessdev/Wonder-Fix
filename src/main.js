@@ -616,25 +616,48 @@ mm.add(MOTION, () => {
 });
 
 /* ─────────────────────────────────────────────────────────────
-   SEGMENTOS — linhas entrando + microinteração no hover
+   CAIXAS PERSONALIZADAS
+   Mesmo grão da seção Empresa logo acima: parágrafos entrando em
+   stagger, o selo (foto do produto) revelado em máscara + zoom-out
+   interno — igual ao card de produto, não um fade genérico — e o
+   trilho de quatro fechando com o mesmo filete kraft do about.
    ───────────────────────────────────────────────────────────── */
 mm.add(MOTION, () => {
-  gsap.from(".sectors__list li", {
-    yPercent: 40,
+  gsap.from(".boxes__text p", {
+    y: 24,
+    opacity: 0,
+    duration: 1,
+    stagger: 0.12,
+    scrollTrigger: { trigger: ".boxes__text", start: "top 82%" },
+  });
+
+  gsap.utils.toArray(".boxes__frame, .boxes__proof").forEach((el) => {
+    const inner = el.querySelector("img");
+    const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 85%" } });
+    tl.from(el, { clipPath: "inset(100% 0% 0% 0%)", duration: 1.2, ease: "power4.out" })
+      .from(inner, { scale: 1.25, duration: 1.5, ease: "power3.out" }, 0);
+  });
+
+  gsap.from(".boxes__sign figcaption", {
+    y: 16,
+    opacity: 0,
+    duration: 0.8,
+    scrollTrigger: { trigger: ".boxes__sign", start: "top 78%" },
+  });
+
+  gsap.from(".boxes__pillars li", {
+    y: 26,
     opacity: 0,
     duration: 0.9,
-    stagger: 0.07,
-    scrollTrigger: { trigger: ".sectors__list", start: "top 82%" },
+    stagger: 0.1,
+    scrollTrigger: { trigger: ".boxes__pillars", start: "top 85%" },
   });
-});
 
-mm.add(DESK, () => {
-  gsap.utils.toArray(".sectors__list li").forEach((li) => {
-    const num = li.querySelector("span");
-    li.addEventListener("pointerenter", () =>
-      gsap.to(num, { scale: 1.6, color: "#C58A4E", duration: 0.4, ease: "back.out(3)" }));
-    li.addEventListener("pointerleave", () =>
-      gsap.to(num, { scale: 1, color: "#3B6FE0", duration: 0.4 }));
+  gsap.from(".boxes__foot", {
+    y: 30,
+    opacity: 0,
+    duration: 1,
+    scrollTrigger: { trigger: ".boxes__foot", start: "top 88%" },
   });
 });
 

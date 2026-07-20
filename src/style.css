@@ -48,7 +48,7 @@ body {
    que refazer a camada inteira contra todo o conteúdo que se movia por baixo.
    Agora o grão é background das seções — pintado uma vez, cacheado, custo zero
    durante o scroll. A opacidade vem dentro do próprio SVG. */
-.stats, .about, .products, .process, .sectors, .quote, .cta, .footer {
+.stats, .about, .products, .process, .boxes, .quote, .cta, .footer {
   background-image: var(--grain);
 }
 
@@ -968,33 +968,181 @@ em {
   .step:hover .step__n { color: var(--kraft); }
 }
 
-/* ── SEGMENTOS ──────────────────────────────────────────────── */
-.sectors { background: var(--navy-deep); padding-bottom: clamp(4rem, 9vw, 8rem); }
-.sectors__list { list-style: none; padding: 0 var(--pad); }
-.sectors__list li {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  padding: clamp(1.1rem, 2.2vw, 1.7rem) 0;
-  border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
-  font-family: var(--f-display);
-  font-weight: 700;
-  font-stretch: 90%;
-  text-transform: uppercase;
-  font-size: clamp(1.1rem, 2.6vw, 2rem);
-  letter-spacing: -.01em;
-  cursor: default;
-  transition: color .4s var(--ease), padding-left .5s var(--ease);
+/* ── CAIXAS PERSONALIZADAS ─────────────────────────────────────
+   Mesma gramática da seção Empresa (claim → texto+selo → trilho
+   numerado): não é um componente novo, é o padrão do site aplicado
+   ao produto que mais vende. Fecha com a foto de aplicações + CTA.  */
+.boxes {
+  padding: clamp(5rem, 11vw, 10rem) var(--pad) clamp(4.5rem, 9vw, 8rem);
+  background: var(--navy-deep);
+  border-top: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
 }
-.sectors__list li:last-child { border-bottom: 1px solid color-mix(in srgb, var(--paper) 12%, transparent); }
-.sectors__list li span {
-  font-size: .75rem;
+.boxes .section__head { padding: 0 0 clamp(2rem, 4vw, 3.5rem); }
+.boxes__claim { max-width: 22ch; }
+
+.boxes__story {
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid color-mix(in srgb, var(--kraft) 45%, transparent);
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+.boxes__text { display: grid; gap: 1.6rem; max-width: 58ch; align-self: center; }
+/* A primeira frase é a chamada — vai pra fonte de título (a mesma do h2 e dos
+   pilares), não pro Inter genérico de parágrafo. É o que separa "texto grande"
+   de "texto com desenho". A segunda fica como legenda de apoio, mais quieta. */
+.boxes__text p:first-child {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-stretch: 90%;
+  font-size: clamp(1.35rem, 2.3vw, 1.9rem);
+  line-height: 1.32;
+  letter-spacing: -.01em;
+  color: var(--paper);
+}
+.boxes__text p:last-child {
+  font-size: .95rem;
+  line-height: 1.75;
+  max-width: 50ch;
+  color: color-mix(in srgb, var(--paper) 60%, transparent);
+}
+
+/* O "selo": mesma ideia do about__sign, mas com a foto do produto no
+   lugar da logo — a caixa é a assinatura, aqui. */
+.boxes__sign {
+  display: grid;
+  gap: 1.1rem;
+  justify-items: start;
+  justify-self: end;
+  width: min(100%, 320px);
+  padding-left: clamp(0rem, 2vw, 2rem);
+  border-left: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+}
+.boxes__frame {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--navy);
+}
+.boxes__frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.boxes__sign figcaption { display: grid; gap: .35rem; }
+.boxes__sign b {
+  font-family: var(--f-display);
   font-weight: 800;
-  color: var(--blue-soft);
-  letter-spacing: .1em;
+  font-stretch: 82%;
+  font-size: .9rem;
+  letter-spacing: .01em;
+}
+.boxes__sign span {
+  font-size: .78rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--paper) 50%, transparent);
+}
+
+/* Trilho de quatro: mesmo gesto do about__pillars — o filete kraft corre no
+   topo no hover, o mesmo movimento da fita sendo puxada. */
+.boxes__pillars {
+  list-style: none;
+  margin-top: clamp(3rem, 7vw, 6rem);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+.boxes__pillars li {
+  position: relative;
+  display: grid;
+  gap: .7rem;
+  align-content: start;
+  padding-top: 1.6rem;
+  border-top: 1px solid color-mix(in srgb, var(--paper) 18%, transparent);
+}
+.boxes__pillars li::before {
+  content: "";
+  position: absolute;
+  inset: -1px 0 auto 0;
+  height: 1px;
+  background: var(--kraft);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .6s var(--ease);
 }
 @media (hover: hover) {
-  .sectors__list li:hover { color: var(--kraft); padding-left: 1.2rem; }
+  .boxes__pillars li:hover::before { transform: scaleX(1); }
+}
+.boxes__pn {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: .75rem;
+  letter-spacing: .06em;
+  color: var(--kraft);
+}
+.boxes__pillars h3 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 88%;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  letter-spacing: -.01em;
+}
+.boxes__pillars p {
+  font-size: .84rem;
+  line-height: 1.55;
+  max-width: 30ch;
+  color: color-mix(in srgb, var(--paper) 55%, transparent);
+}
+
+/* Fecho: a foto das aplicações reais ao lado do CTA — prova e pedido lado a
+   lado, sem disputar a atenção com o trilho acima. */
+.boxes__foot {
+  margin-top: clamp(3rem, 7vw, 6rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, .4fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: stretch;
+}
+.boxes__proof {
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--navy);
+  border: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+}
+.boxes__proof img { width: 100%; height: 220px; object-fit: cover; display: block; }
+.boxes__proof figcaption {
+  padding: 1.1rem clamp(1.25rem, 2.5vw, 2rem);
+  font-size: .84rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--paper) 72%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+}
+.boxes__foot .btn {
+  justify-self: stretch;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .boxes__story { grid-template-columns: 1fr; }
+  .boxes__sign {
+    justify-self: start;
+    padding-left: 0;
+    border-left: 0;
+    padding-top: 1.8rem;
+    border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+    width: 100%;
+  }
+  .boxes__pillars { grid-template-columns: 1fr; gap: 0; }
+  .boxes__pillars li { padding-block: 1.5rem; }
+  .boxes__foot { grid-template-columns: 1fr; }
+}
+@media (min-width: 601px) and (max-width: 980px) {
+  .boxes__pillars {
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 5vw, 3rem);
+  }
+  .boxes__pillars li:nth-child(-n+2) { padding-top: 1.6rem; }
 }
 
 /* ── DEPOIMENTO ─────────────────────────────────────────────── */

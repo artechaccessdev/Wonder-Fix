@@ -7,40 +7,119 @@
        notch e da barra de gestos. -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-  <title>Wonder Fix — Fitas e embalagens personalizadas com a sua marca</title>
-  <meta name="description" content="Fábrica de fitas adesivas e embalagens customizadas desde 2003. Sua marca impressa no lacre, do primeiro rolo à entrega. Solicite um orçamento." />
+  <!-- Título e descrição — únicos e com a palavra-chave principal na frente
+       ("fita adesiva personalizada"), que é o que o cliente digita no Google. -->
+  <title>Fita Adesiva Personalizada e Embalagens sob Medida | Wonder Fix</title>
+  <meta name="description" content="Fábrica de fita adesiva personalizada e embalagens sob medida desde 2003. Sua marca impressa no lacre, com teste de adesão em cada lote. Peça um orçamento sem custo de arte." />
 
+  <!-- URL canônica: evita conteúdo duplicado (com/sem www, com barra, com UTM). -->
+  <link rel="canonical" href="https://www.wonderfix.com.br/" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="author" content="Wonder Fix" />
+  <meta name="theme-color" content="#08132B" />
+
+  <!-- ── Open Graph · WhatsApp, Facebook, LinkedIn ─────────────── -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Wonder Fix — Nossa marca, sua segurança" />
-  <meta property="og:description" content="Fábrica de fitas adesivas e embalagens customizadas desde 2003." />
-  <meta property="og:image" content="/images/og.jpg" />
+  <meta property="og:site_name" content="Wonder Fix" />
+  <meta property="og:title" content="Fita Adesiva Personalizada e Embalagens sob Medida | Wonder Fix" />
+  <meta property="og:description" content="Fábrica de fita adesiva personalizada e embalagens sob medida desde 2003. Sua marca impressa no lacre, com teste de adesão em cada lote." />
+  <meta property="og:url" content="https://www.wonderfix.com.br/" />
+  <meta property="og:image" content="https://www.wonderfix.com.br/og.jpg" />
+  <meta property="og:image:secure_url" content="https://www.wonderfix.com.br/og.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Wonder Fix — fita adesiva personalizada com a sua marca impressa no lacre" />
   <meta property="og:locale" content="pt_BR" />
 
-  <link rel="icon" type="image/png" href="/brand/favicon.png" />
+  <!-- ── Twitter / X Cards ─────────────────────────────────────── -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Fita Adesiva Personalizada e Embalagens sob Medida | Wonder Fix" />
+  <meta name="twitter:description" content="Fábrica de fita adesiva personalizada e embalagens sob medida desde 2003. Sua marca impressa no lacre." />
+  <meta name="twitter:image" content="https://www.wonderfix.com.br/og.jpg" />
+  <meta name="twitter:image:alt" content="Wonder Fix — fita adesiva personalizada com a sua marca impressa no lacre" />
+
+  <!-- ── Ícones ────────────────────────────────────────────────── -->
+  <link rel="icon" type="image/png" sizes="512x512" href="/brand/favicon.png" />
   <link rel="apple-touch-icon" href="/brand/favicon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
+  <!-- ── Dados estruturados (Schema.org) ───────────────────────────
+       Grafo único: a empresa (LocalBusiness), o site (WebSite) e o
+       catálogo de linhas de produto. FAQ e Breadcrumb ficaram de fora
+       de propósito — o Google exige que o conteúdo desses tipos esteja
+       visível na página, e o layout atual não tem seção de perguntas
+       nem trilha de navegação. Ver o relatório para quando adicioná-los. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Wonder Fix",
-    "slogan": "Nossa marca, sua segurança",
-    "foundingDate": "2003",
-    "description": "Fábrica de fitas adesivas e embalagens customizadas.",
-    "telephone": "+55 21 96418-0421",
-    "taxID": "05.994.311/0001-37",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Rua da Regeneração, 350",
-      "addressLocality": "Rio de Janeiro",
-      "addressRegion": "RJ",
-      "postalCode": "21040-170",
-      "addressCountry": "BR"
-    }
+    "@graph": [
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://www.wonderfix.com.br/#business",
+        "name": "Wonder Fix",
+        "alternateName": "Wonder Fix Fitas e Embalagens",
+        "url": "https://www.wonderfix.com.br/",
+        "image": "https://www.wonderfix.com.br/og.jpg",
+        "logo": "https://www.wonderfix.com.br/brand/logo-full-light.png",
+        "slogan": "Nossa marca, sua segurança",
+        "description": "Fábrica de fita adesiva personalizada e embalagens sob medida desde 2003, com a marca do cliente impressa no lacre e teste de adesão em cada lote.",
+        "foundingDate": "2003",
+        "telephone": "+55-21-96418-0421",
+        "email": "comercial@wonderfix.com.br",
+        "priceRange": "$$",
+        "currenciesAccepted": "BRL",
+        "vatID": "05.994.311/0001-37",
+        "taxID": "05.994.311/0001-37",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Rua da Regeneração, 350 — Bonsucesso",
+          "addressLocality": "Rio de Janeiro",
+          "addressRegion": "RJ",
+          "postalCode": "21040-170",
+          "addressCountry": "BR"
+        },
+        "areaServed": { "@type": "Country", "name": "Brasil" },
+        "openingHoursSpecification": [{
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "08:00",
+          "closes": "18:00"
+        }],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+55-21-96418-0421",
+          "email": "comercial@wonderfix.com.br",
+          "contactType": "sales",
+          "areaServed": "BR",
+          "availableLanguage": ["Portuguese"]
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Linhas de produto",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fita adesiva personalizada", "description": "Fita acrílica ou hot melt com a logomarca do cliente, com teste de adesão e tração." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Caixas de papelão diversas", "description": "Caixas de onda simples, dupla ou tripla, com medidas sob encomenda e impressão da arte inclusa." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fita de sinalização", "description": "Fitas de segurança amarelo-preto e verde-branco para isolamento e sinalização de áreas." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fita gomada", "description": "Fita gomada de papel kraft, lisa ou reforçada com fio, personalizável com a marca." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fitilho para amarração", "description": "Fitilho de polipropileno em rolos de 280 metros, em várias cores e espessuras." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Plástico bolha", "description": "Plástico bolha em bobina cortada sob medida para proteção de itens frágeis." } }
+          ]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.wonderfix.com.br/#website",
+        "url": "https://www.wonderfix.com.br/",
+        "name": "Wonder Fix",
+        "inLanguage": "pt-BR",
+        "publisher": { "@id": "https://www.wonderfix.com.br/#business" }
+      }
+    ]
   }
   </script>
 </head>
@@ -69,7 +148,7 @@
       <a href="#produtos">Produtos</a>
       <a href="#processo">Processo</a>
       <a href="#empresa">Empresa</a>
-      <a href="#segmentos">Segmentos</a>
+      <a href="#caixas">Caixas</a>
     </nav>
     <a href="#orcamento" class="btn btn--nav" data-magnetic>
       <span>Solicitar orçamento</span>
@@ -87,7 +166,7 @@
     <a href="#produtos">Produtos</a>
     <a href="#processo">Processo</a>
     <a href="#empresa">Empresa</a>
-    <a href="#segmentos">Segmentos</a>
+    <a href="#caixas">Caixas</a>
     <a href="#orcamento">Orçamento</a>
   </div>
 
@@ -474,20 +553,87 @@
       </div>
     </section>
 
-    <!-- ══ SEGMENTOS ═════════════════════════════════════════════ -->
-    <section class="sectors" id="segmentos">
+    <!-- ══ CAIXAS PERSONALIZADAS ═════════════════════════════════
+         Substituiu a antiga lista de "Segmentos atendidos". Caixa
+         personalizada é o carro-chefe da fábrica. O layout segue a
+         mesma gramática da seção "Empresa" logo acima (claim grande →
+         texto + selo → trilho numerado) em vez de um grid de cards
+         genérico — é o padrão que já existe no site, não um componente
+         novo colado por cima.                                        -->
+    <section class="boxes" id="caixas">
       <div class="section__head">
-        <p class="eyebrow"><span class="dot"></span> Segmentos atendidos</p>
-        <h2 class="h2" data-split>Se cabe numa caixa, <em>a gente lacra.</em></h2>
+        <p class="eyebrow"><span class="dot"></span> Nosso carro-chefe</p>
+        <h2 class="h2 boxes__claim" data-split>
+          Se tem um produto com a nossa cara,
+          <em>é a caixa.</em>
+        </h2>
       </div>
-      <ul class="sectors__list">
-        <li><span>01</span> E-commerce e fulfillment</li>
-        <li><span>02</span> Alimentício</li>
-        <li><span>03</span> Farmacêutico e hospitalar</li>
-        <li><span>04</span> Transportadoras</li>
-        <li><span>05</span> Indústria e autopeças</li>
-        <li><span>06</span> Gráficas e editoras</li>
+
+      <div class="boxes__story">
+        <div class="boxes__text">
+          <p>
+            Quem recebe o pedido vê a caixa antes de ver o que tem dentro. É o
+            produto que mais sai daqui — e o que mais volta a ser pedido,
+            porque é aí que a marca do cliente aparece inteira.
+          </p>
+          <p>
+            Fabricamos a chapa, cortamos no vinco da sua medida e imprimimos a
+            arte na mesma casa. Sem intermediário no meio, sem caixa genérica
+            com adesivo colado por cima.
+          </p>
+        </div>
+
+        <figure class="boxes__sign">
+          <div class="boxes__frame">
+            <img src="/images/caixas/caixa-marca.webp"
+                 alt="Funcionário carregando caixas de papelão kraft com a marca Wonder Fix impressa em azul"
+                 width="700" height="875" loading="lazy" />
+          </div>
+          <figcaption>
+            <b>A mais pedida da casa</b>
+            <span>Caixa personalizada · impressão inclusa, sem custo de layout</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <ul class="boxes__pillars">
+        <li>
+          <span class="boxes__pn">01</span>
+          <h3>Medida sob encomenda</h3>
+          <p>Você manda a dimensão da peça, a gente calcula o vinco. Nada de sobra de espaço nem de plástico bolha pra compensar caixa errada.</p>
+        </li>
+        <li>
+          <span class="boxes__pn">02</span>
+          <h3>Onda simples, dupla ou tripla</h3>
+          <p>A gramatura sai da resistência que a carga pede, testada por empilhamento antes de virar lote.</p>
+        </li>
+        <li>
+          <span class="boxes__pn">03</span>
+          <h3>Impressão da arte inclusa</h3>
+          <p>Uma ou mais cores, sem custo de layout. Se você tem só o logo, a gente fecha a arte da caixa junto.</p>
+        </li>
+        <li>
+          <span class="boxes__pn">04</span>
+          <h3>Amostra física antes do lote</h3>
+          <p>Aprovou a caixa na mão, aí entra na linha. Ninguém aqui produz mil unidades em cima de um PDF.</p>
+        </li>
       </ul>
+
+      <div class="boxes__foot">
+        <figure class="boxes__proof">
+          <img src="/images/caixas/caixa-impressao.webp"
+               alt="Caixas personalizadas impressas para pizza, torta, salgados e empadas"
+               width="1200" height="760" loading="lazy" />
+          <figcaption>
+            Kraft ou branca, tampa solta ou caixa de pizza — o mesmo processo
+            atende a padaria da esquina e o galpão de fulfillment.
+          </figcaption>
+        </figure>
+
+        <a href="#orcamento" class="btn btn--solid" data-magnetic>
+          <span>Quero a minha caixa</span>
+        </a>
+      </div>
     </section>
 
     <!-- ══ ORÇAMENTO ═════════════════════════════════════════════ -->
