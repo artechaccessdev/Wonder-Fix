@@ -41,7 +41,11 @@ if (!REDUCED) {
 
 document.querySelectorAll('a[href^="#"]').forEach((a) => {
   a.addEventListener("click", (e) => {
-    const target = document.querySelector(a.getAttribute("href"));
+    const href = a.getAttribute("href");
+    // href="#" sozinho (ex.: preferências de cookies) não é âncora de seção —
+    // querySelector("#") lançaria SyntaxError e a página pularia pro topo.
+    if (!href || href === "#") return;
+    const target = document.querySelector(href);
     if (!target) return;
     e.preventDefault();
     closeMenu();
@@ -156,7 +160,7 @@ function bootHero() {
     .from(".hero__foot", { y: 30, opacity: 0, duration: 0.9 }, "-=0.6")
     .from(".hero__foot", { clipPath: "inset(0 100% 0 0)", duration: 1.1 }, "<")
     .from(".nav", { y: -40, opacity: 0, duration: 0.8 }, "-=0.9")
-    .from(".hero__scroll", { opacity: 0, y: 20, duration: 0.6 }, "-=0.5");
+    .from(".hero__cta", { opacity: 0, y: 20, duration: 0.6 }, "-=0.5");
 
   return tl;
 }
@@ -772,8 +776,7 @@ form.addEventListener("submit", (e) => {
       `E-mail: ${d.get("email")}\nTelefone: ${d.get("tel") || "-"}\n\n${d.get("msg") || ""}`
   );
 
-  // TROCAR AQUI · número real do WhatsApp da fábrica
-  window.open(`https://wa.me/5500000000000?text=${texto}`, "_blank");
+  window.open(`https://wa.me/5521964180421?text=${texto}`, "_blank");
 
   note.textContent = "Pedido montado — é só enviar no WhatsApp que abriu.";
   note.classList.add("ok");

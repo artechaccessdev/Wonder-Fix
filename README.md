@@ -14,11 +14,11 @@ O site está no ar com conteúdo provisório. Por ordem de impacto:
 
 | O quê | Onde | Situação |
 |---|---|---|
-| Vídeo do hero | `public/video/hero.{webm,mp4}` | Clipe de banco (Mixkit). Trocar por filmagem da fábrica. |
+| Vídeo do hero | `public/video/hero.{webm,mp4}` | Clipe de banco (Mixkit), **definitivo** — o cliente decidiu não gravar filmagem própria. |
 | Números (22 anos, 850 clientes…) | `index.html` → `data-count` | **Inventados.** São a prova mais forte do site — precisam ser reais. |
 | Foto da fita personalizada | card 03 em `index.html` | **Falta** — ver aviso abaixo. |
 | Foto da caixa em alta resolução | `images/caixa personalizada.png` | Só 533x259. É a foto de destaque do site e a de pior resolução do lote. |
-| WhatsApp, e-mail, endereço, CNPJ | `index.html` + `src/main.js` | Estão como `0000`. |
+| WhatsApp, e-mail, endereço, CNPJ | `index.html` + `src/main.js` | Preenchidos com os dados reais (21 96418-0421 / comercial@wonderfix.com.br). |
 | Depoimento | `index.html` → `.quote` | Fictício. Sem um real, remova a seção. |
 
 ## ⚠ Foto que NÃO pode entrar no site

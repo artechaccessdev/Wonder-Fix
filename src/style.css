@@ -460,27 +460,48 @@ em {
   padding-top: 1.8rem;
 }
 .hero__lead {
-  max-width: 46ch;
+  max-width: 62ch;
   color: color-mix(in srgb, var(--paper) 76%, transparent);
 }
-.hero__actions { display: flex; gap: .8rem; flex-wrap: wrap; }
-
-.hero__scroll {
+/* Dupla de CTAs no meio-direito do hero (WhatsApp + orçamento). */
+.hero__cta {
   position: absolute;
   right: var(--pad);
-  top: 50%;
+  top: 44%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
-  gap: .8rem;
-  font-size: .75rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  writing-mode: vertical-rl;
-  color: color-mix(in srgb, var(--paper) 45%, transparent);
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
-.hero__scrollbar { width: 1px; height: 60px; background: color-mix(in srgb, var(--paper) 20%, transparent); overflow: hidden; }
-.hero__scrollbar i { display: block; width: 100%; height: 40%; background: var(--kraft); animation: drop 2s var(--ease) infinite; }
-@keyframes drop { 0% { transform: translateY(-100%) } 100% { transform: translateY(250%) } }
+.btn--wa {
+  --b: #25d366;
+  background: #25d366;
+  border-color: #25d366;
+  color: #fff;
+  border-radius: 14px;
+  padding: 1.05rem 1.8rem;
+}
+.btn--wa::before { background: #1ebe5b; }
+@media (hover: hover) {
+  .btn--wa:hover { color: #fff; }
+}
+.btn__waicon { width: 1.35em; height: 1.35em; position: relative; z-index: 1; }
+.btn--cta { border-radius: 14px; padding: 1.05rem 1.8rem; }
+/* Entre 981 e 1450px o título chega perto da borda direita: os dois botões
+   lado a lado invadiriam o texto. Empilhados, cabem no espaço que sobra. */
+@media (min-width: 981px) and (max-width: 1450px) {
+  .hero__cta { flex-direction: column; align-items: flex-end; gap: .8rem; }
+}
+/* Hover do fantasma: só um véu translúcido, texto continua branco. */
+.btn--cta::before { background: color-mix(in srgb, var(--paper) 14%, transparent); }
+@media (hover: hover) {
+  .btn--cta:hover {
+    color: var(--paper);
+    border-color: color-mix(in srgb, var(--paper) 60%, transparent);
+  }
+}
 
 /* ── NÚMEROS ────────────────────────────────────────────────── */
 .stats {
@@ -1366,7 +1387,13 @@ em {
   .nav__links, .btn--nav { display: none; }
   .nav__burger { display: flex; }
   .hero__foot { grid-template-columns: 1fr; align-items: start; }
-  .hero__scroll { display: none; }
+  /* No celular os CTAs saem da lateral e entram no fluxo, abaixo do texto. */
+  .hero__cta {
+    position: static;
+    transform: none;
+    justify-content: flex-start;
+    margin-top: 1.5rem;
+  }
   .stats { grid-template-columns: 1fr 1fr; }
   .stat:nth-child(2n) { border-right: 0; }
   .stat:nth-child(-n+2) { border-bottom: 1px solid color-mix(in srgb, var(--paper) 10%, transparent); }
@@ -1431,6 +1458,7 @@ em {
     max-width: 22ch;
   }
   .hero__foot { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+  .hero__cta { position: static; transform: none; justify-content: flex-start; margin-top: 1.25rem; }
   .section__head { padding-top: clamp(3rem, 8vh, 5rem); }
 
   /* Deitado o notch fica na lateral: --pad passa a respeitar a área segura,
