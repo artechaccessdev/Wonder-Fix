@@ -134,7 +134,9 @@
             { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fita de sinalização", "description": "Fitas de segurança amarelo-preto e verde-branco para isolamento e sinalização de áreas." } },
             { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fita gomada", "description": "Fita gomada de papel kraft, lisa ou reforçada com fio, personalizável com a marca." } },
             { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fitilho para amarração", "description": "Fitilho de polipropileno em rolos de 280 metros, em várias cores e espessuras." } },
-            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Plástico bolha", "description": "Plástico bolha em bobina cortada sob medida para proteção de itens frágeis." } }
+            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Plástico bolha", "description": "Plástico bolha em bobina cortada sob medida para proteção de itens frágeis." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fita crepe", "description": "Fita crepe de papel com adesivo de borracha, em várias larguras, para pintura, mascaramento e identificação de lotes." } },
+            { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "Fita adesiva marrom", "description": "Fita adesiva marrom de polipropileno com adesivo acrílico, também em versão transparente, para fechamento de caixas de papelão." } }
           ]
         }
       },
@@ -211,15 +213,10 @@
           <source src="/video/hero.webm" type="video/webm" />
           <source src="/video/hero.mp4" type="video/mp4" />
         </video>
-        <div class="hero__grid"></div>
         <div class="hero__scrim"></div>
       </div>
 
       <div class="hero__content">
-        <p class="eyebrow" data-fade>
-          <span class="dot"></span> Fábrica própria · Desde 2003
-        </p>
-
         <h1 class="hero__title" data-split>
           O lacre que fecha
           <em>a caixa</em> é o mesmo
@@ -232,19 +229,20 @@
             Você manda a arte, a gente entrega o rolo — com adesão testada,
             gramatura conferida e prazo cumprido.
           </p>
-        </div>
-      </div>
 
-      <div class="hero__cta">
-        <a class="btn btn--wa"
-           href="https://wa.me/5521964180421?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20um%20or%C3%A7amento."
-           target="_blank" rel="noopener">
-          <svg class="btn__waicon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.22.25-.85.84-.85 2.04 0 1.2.87 2.36.99 2.53.12.16 1.71 2.61 4.15 3.66.58.25 1.03.4 1.39.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29z"/>
-          </svg>
-          <span>Fale agora no WhatsApp&ensp;→</span>
-        </a>
-        <a href="#orcamento" class="btn btn--ghost btn--cta">Solicitar orçamento</a>
+          <!-- CTAs ancorados na linha do rodapé, não flutuando sobre o vídeo:
+               a régua de metragem acima amarra texto e botões na mesma base. -->
+          <div class="hero__cta">
+            <a class="btn btn--solid btn--cta"
+               href="https://wa.me/5521964180421?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20um%20or%C3%A7amento."
+               target="_blank" rel="noopener">
+              <svg class="btn__waicon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23a8.2 8.2 0 0 1 8.24 8.24c0 4.54-3.7 8.23-8.24 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.22.25-.85.84-.85 2.04 0 1.2.87 2.36.99 2.53.12.16 1.71 2.61 4.15 3.66.58.25 1.03.4 1.39.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29z"/>
+              </svg>
+              <span>Solicitar orçamento</span>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -522,13 +520,77 @@
           </div>
         </article>
 
+        <article class="card card--extra" role="button" tabindex="0" aria-haspopup="dialog" hidden>
+          <div class="card__media">
+            <img src="/images/produtos/fita-crepe.webp"
+                 alt="Três rolos de fita crepe de papel, em larguras diferentes"
+                 width="1200" height="900" loading="lazy" />
+          </div>
+          <div class="card__info">
+            <h3>Fita crepe</h3>
+            <p>
+              Feita de papel, a fita crepe é a única que sai depois sem levar junto a tinta nem a superfície.
+            </p>
+            <span class="card__cta">Ver detalhes <i>→</i></span>
+          </div>
+          <div class="card__detail" hidden>
+            <p>
+              Usada em pintura, mascaramento e identificação de lotes, a fita crepe é feita de papel com adesivo à base de
+              borracha. É essa combinação que permite colar, delimitar o trabalho e depois remover sem deixar resíduo grudado.
+            </p>
+            <p>
+              Por aceitar escrita à caneta, ela também resolve a etiquetagem do dia a dia no estoque: o operador anota o
+              conteúdo ou a data direto no rolo já aplicado. Sai em várias larguras, da mais estreita para acabamento à mais
+              larga para fechamento.
+            </p>
+            <!-- TROCAR AQUI · CONFIRMAR AS LARGURAS REAIS que a fábrica trabalha. -->
+            <ul>
+              <li>Várias larguras, do acabamento fino ao rolo largo</li>
+              <li>Remoção limpa, sem resíduo e sem arrancar a pintura</li>
+              <li>Aceita anotação à caneta direto no rolo</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card card--extra" role="button" tabindex="0" aria-haspopup="dialog" hidden>
+          <div class="card__media">
+            <img src="/images/produtos/fita-marrom.webp"
+                 alt="Rolo de fita adesiva marrom ao lado de um rolo de fita transparente"
+                 width="1200" height="900" loading="lazy" />
+          </div>
+          <div class="card__info">
+            <h3>Fita adesiva marrom</h3>
+            <p>
+              A marrom acompanha o tom do papelão: fecha o volume sem que o lacre chame atenção na caixa.
+            </p>
+            <span class="card__cta">Ver detalhes <i>→</i></span>
+          </div>
+          <div class="card__detail" hidden>
+            <p>
+              Fabricada em polipropileno com adesivo acrílico, a fita adesiva marrom é a mais usada no fechamento de caixas
+              de papelão. A cor acompanha o tom do papel e disfarça a emenda — é a escolha de quem precisa que o volume
+              chegue fechado sem que o lacre apareça.
+            </p>
+            <p>
+              Sai também na versão transparente, para quando a caixa já tem arte impressa e o lacre não pode cobrir nada.
+              As duas usam o mesmo adesivo e a mesma metragem por rolo: muda só o que aparece na embalagem. Para volume
+              alto, o produto segue em bobina para aplicadora.
+            </p>
+            <ul>
+              <li>Marrom ou transparente, com o mesmo adesivo</li>
+              <li>Adesivo acrílico, que não resseca parado no estoque</li>
+              <li>Também personalizável com a sua marca impressa</li>
+            </ul>
+          </div>
+        </article>
+
       </div>
 
       <!-- O "Saiba mais" do layout do cliente. Ainda não há página de produto:
            por ora ele leva ao formulário de orçamento. Quando a página existir,
            trocar o href aqui.
-           "Mais produtos" revela os 3 cards .card--extra (ver main.js) — a grade
-           abre com 3 e só mostra os outros 3 a pedido, pra não poluir. -->
+           "Mais produtos" revela os cards .card--extra (ver main.js) — a grade
+           abre com 3 e só mostra os demais a pedido, pra não poluir. -->
       <div class="products__more" data-fade>
         <button type="button" class="btn btn--pill btn--outline" id="moreProducts"
                 aria-expanded="false" aria-controls="produtos">
@@ -581,12 +643,13 @@
     </section>
 
     <!-- ══ CAIXAS PERSONALIZADAS ═════════════════════════════════
-         Substituiu a antiga lista de "Segmentos atendidos". Caixa
-         personalizada é o carro-chefe da fábrica. O layout segue a
-         mesma gramática da seção "Empresa" logo acima (claim grande →
-         texto + selo → trilho numerado) em vez de um grid de cards
-         genérico — é o padrão que já existe no site, não um componente
-         novo colado por cima.                                        -->
+         O carro-chefe agora fala a língua da própria fábrica: a seção
+         é desenhada como a FICHA TÉCNICA que acompanha a caixa na
+         produção. Fundo kraft com ondulação de papelão, foto do
+         produto presa com fita adesiva (que também é produto da casa),
+         carimbo de aprovação e os quatro pontos em formato de romaneio
+         — linhas de ficha, separadas por vinco tracejado — em vez do
+         grid de colunas que o resto do site já usa.                  -->
     <section class="boxes" id="caixas">
       <div class="section__head">
         <p class="eyebrow"><span class="dot"></span> Nosso carro-chefe</p>
@@ -611,11 +674,14 @@
         </div>
 
         <figure class="boxes__sign">
+          <span class="boxes__tape boxes__tape--tl" aria-hidden="true"></span>
+          <span class="boxes__tape boxes__tape--br" aria-hidden="true"></span>
           <div class="boxes__frame">
             <img src="/images/caixas/caixa-marca.webp"
                  alt="Funcionário carregando caixas de papelão kraft com a marca Wonder Fix impressa em azul"
                  width="700" height="875" loading="lazy" />
           </div>
+          <span class="boxes__stamp" aria-hidden="true">Aprovado<i>p/ produção</i></span>
           <figcaption>
             <b>A mais pedida da casa</b>
             <span>Caixa personalizada · impressão inclusa, sem custo de layout</span>
@@ -623,6 +689,10 @@
         </figure>
       </div>
 
+      <div class="boxes__fichahead" aria-hidden="true">
+        <span>Ficha técnica · caixa sob medida</span>
+        <span class="boxes__legenda"><i class="corte"></i> corte&ensp;<i class="vinco"></i> vinco</span>
+      </div>
       <ul class="boxes__pillars">
         <li>
           <span class="boxes__pn">01</span>

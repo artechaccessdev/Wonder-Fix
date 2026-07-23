@@ -74,6 +74,21 @@ await sharp({
   .webp({ quality: 82 })
   .toFile(`${OUT}/plastico-bolha.webp`);
 
+/* ── Cards 07-08 · fotos enviadas pelo cliente (jul/2026) ─────────────────────
+   As duas já nascem em 4:3 (~1450x1085), a proporção do quadro do card: entram
+   sem corte, o resize só reduz para 1200x900. */
+
+/* 07 · Fita crepe — três rolos em larguras diferentes, foto de estúdio. */
+await webp(sharp("images/fita-crepe.jpg"), "fita-crepe", 1200, 900);
+
+/* 08 · Fita adesiva marrom — o rolo marrom e o transparente lado a lado.
+   ATENÇÃO ao histórico: a versão original desta foto trazia a marca "sticky tape"
+   e o telefone (21) 2197-7000 estampados na etiqueta do miolo dos dois rolos — o
+   mesmo contato de terceiro que barrou images/fita-adesiva-personalizada.jpg.
+   O cliente reeditou a imagem e removeu as etiquetas; os miolos agora estão
+   limpos. Se um dia esta foto for trocada, confira o miolo dos rolos antes. */
+await webp(sharp("images/fita-adesiva-marrom.png"), "fita-marrom", 1200, 900);
+
 /* images/fitas_adesivas-todo-tipo.jpg não é mais usada: o card do banner largo
    foi removido. */
 

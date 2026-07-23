@@ -156,8 +156,7 @@ function bootHero() {
     tl.to(words, { yPercent: 0, duration: 1.15, stagger: 0.04 }, 0.35);
   }
 
-  tl.from(".hero .eyebrow", { y: 20, opacity: 0, duration: 0.8 }, 0.3)
-    .from(".hero__foot", { y: 30, opacity: 0, duration: 0.9 }, "-=0.6")
+  tl.from(".hero__foot", { y: 30, opacity: 0, duration: 0.9 }, 0.5)
     .from(".hero__foot", { clipPath: "inset(0 100% 0 0)", duration: 1.1 }, "<")
     .from(".nav", { y: -40, opacity: 0, duration: 0.8 }, "-=0.9")
     .from(".hero__cta", { opacity: 0, y: 20, duration: 0.6 }, "-=0.5");

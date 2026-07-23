@@ -16,24 +16,38 @@ O site está no ar com conteúdo provisório. Por ordem de impacto:
 |---|---|---|
 | Vídeo do hero | `public/video/hero.{webm,mp4}` | Clipe de banco (Mixkit), **definitivo** — o cliente decidiu não gravar filmagem própria. |
 | Números (22 anos, 850 clientes…) | `index.html` → `data-count` | **Inventados.** São a prova mais forte do site — precisam ser reais. |
-| Foto da fita personalizada | card 03 em `index.html` | **Falta** — ver aviso abaixo. |
+| Larguras da fita crepe | card 07 em `index.html` | Bullet genérico ("várias larguras"). Confirmar as medidas reais que a fábrica trabalha. |
 | Foto da caixa em alta resolução | `images/caixa personalizada.png` | Só 533x259. É a foto de destaque do site e a de pior resolução do lote. |
 | WhatsApp, e-mail, endereço, CNPJ | `index.html` + `src/main.js` | Preenchidos com os dados reais (21 96418-0421 / comercial@wonderfix.com.br). |
 | Depoimento | `index.html` → `.quote` | Fictício. Sem um real, remova a seção. |
 
-## ⚠ Foto que NÃO pode entrar no site
+## ⚠ Fotos que NÃO podem entrar no site
 
-`images/fita-adesiva-personalizada.jpg` **é de outra empresa.** Exibe a marca
-"ADHESIVETAPE", o telefone (21) 2197-7000 e o site adhesivetape.com.br — na faixa
-de fita, no miolo do rolo e nas etiquetas. Qualquer recorte que mostre a fita
-mostra também o contato deles.
+Duas fotos estão barradas pelo mesmo motivo: **mostram a marca e o telefone de
+outra empresa no próprio produto.** Publicá-las é anunciar o concorrente dentro
+do site da Wonder Fix.
 
-Ela está fora do site de propósito, e o card 03 (Fita adesiva personalizada) segue
-com placeholder até chegar uma foto própria — um rolo com a marca de um cliente
-real da Wonder Fix, que é justamente o que o produto vende.
+| Arquivo | O que aparece | Situação |
+|---|---|---|
+| `images/fita-adesiva-personalizada.jpg` | Marca "ADHESIVETAPE", telefone (21) 2197-7000 e o site adhesivetape.com.br — na faixa de fita, no miolo do rolo e nas etiquetas. | **Barrada.** O card 03 usa `foto-fita-personalizada-2.png`, que traz a marca WONDER FIX impressa. |
+| `images/fita-adesiva-marrom.png` | A versão original trazia a marca "sticky tape" e o **mesmo** telefone (21) 2197-7000 na etiqueta do miolo dos dois rolos. | **Resolvida** (jul/2026). O cliente reeditou a foto e removeu as etiquetas; os miolos estão limpos e ela está no ar no card 08. |
 
-As fotos usadas são processadas por `node scripts/produtos.mjs` (recorte, resize,
+O texto fica no **centro** do rolo, então não existe recorte que mostre o produto e
+esconda o contato: só resolve editando a imagem ou trocando de foto.
+
+**Antes de subir qualquer foto de rolo, amplie o miolo e as etiquetas.** É onde o
+contato de terceiro sempre aparece — as duas vezes em que isso quase foi ao ar, o
+problema estava ali.
+
+As fotos liberadas são processadas por `node scripts/produtos.mjs` (recorte, resize,
 WebP) e saem em `public/images/produtos/`.
+
+### Por que nenhum card fica "comentado" no index.html
+
+Comentário de HTML **vai para o ar**: fica visível em "exibir código-fonte" da
+página publicada. Um card desligado com a justificativa escrita ao lado publicaria
+o telefone do concorrente no fonte do site do cliente. Card que não vai ao ar sai
+do `index.html` e fica guardado aqui no README.
 
 ## Performance — leia antes de mexer nas animações
 

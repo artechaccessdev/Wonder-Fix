@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Wonder Fix — teste de hero (estilo MONO)</title>
+
+<!-- Página de TESTE. Não faz parte do site: não é linkada em lugar nenhum e
+     o build do Vite só empacota o index.html, então isto nunca vai ao ar.
+     Abra dando dois cliques no arquivo. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@400;500;600&display=swap" />
+
+<style>
+:root {
+  --navy:       #0E1E3F;
+  --navy-deep:  #08132B;
+  --blue:       #1D4ED8;
+  --paper:      #EFEDE7;
+  --kraft:      #C58A4E;
+
+  --f-display: "Archivo", system-ui, sans-serif;
+  --f-body:    "Inter", system-ui, sans-serif;
+
+  /* trocados pelo botão claro/escuro */
+  --bg:   var(--paper);
+  --word: var(--navy);
+  --ui:   var(--navy);
+}
+[data-tema="escuro"] {
+  --bg:   var(--navy-deep);
+  --word: var(--paper);
+  --ui:   var(--paper);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ui);
+  font-family: var(--f-body);
+  overflow-x: hidden;
+  transition: background .4s ease, color .4s ease;
+}
+
+img { display: block; }
+
+/* ── TOPO ────────────────────────────────────────────────────── */
+.nav {
+  position: fixed; inset: 0 0 auto; z-index: 40;
+  display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.5rem);
+  padding: 1.5rem clamp(1.25rem, 4vw, 3rem);
+  font-size: .9rem;
+  mix-blend-mode: difference;   /* o menu se vira sozinho quando a caixa passa por baixo */
+  color: #fff;
+}
+.nav__marca { font-family: var(--f-display); font-weight: 800; letter-spacing: -.02em; }
+.nav__links { display: flex; gap: clamp(1rem, 2.5vw, 2rem); margin-left: auto; opacity: .8; }
+@media (max-width: 640px) {
+  .nav__links { display: none; }
+  .nav__cta   { margin-left: auto; }   /* quem empurrava era o menu, que sumiu */
+}
+.nav__cta {
+  margin-left: clamp(1rem, 2.5vw, 2rem);
+  padding: .55rem 1.15rem; border: 1px solid currentColor; border-radius: 100px;
+}
+
+/* ── PALCO ───────────────────────────────────────────────────── */
+/* O truque inteiro: um trecho alto de página (.trilho) com um palco sticky
+   dentro. Enquanto o trilho rola, o palco fica parado na tela e a gente só
+   anima o que está dentro dele. */
+.trilho { height: 300vh; position: relative; }
+
+.palco {
+  position: sticky; top: 0;
+  height: 100vh; width: 100%;
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+
+/* A palavra gigante ao fundo — estoura as bordas de propósito, igual à referência */
+.palavra {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 88%;
+  letter-spacing: -.045em;
+  line-height: .82;
+  color: var(--word);
+  white-space: nowrap;
+  user-select: none;
+  will-change: transform;
+}
+.palavra span { display: block; }
+
+/* uma linha só: WONDERFIX de ponta a ponta */
+[data-layout="1"] .palavra          { font-size: 21.5vw; }
+[data-layout="1"] .palavra__2       { display: none; }
+[data-layout="1"] .palavra__1::after { content: "WONDERFIX"; }
+
+/* duas linhas: WONDER encostado no topo, FIX no rodapé, caixa no vão do meio.
+   Se as duas linhas ficassem centralizadas, a caixa cobria a de baixo inteira. */
+[data-layout="2"] .palavra {
+  font-size: 19.5vw;
+  justify-content: space-between;
+  padding: 7vh 0;
+}
+[data-layout="2"] .palavra__1::after { content: "WONDER"; }
+[data-layout="2"] .palavra__2::after { content: "FIX"; }
+
+/* A caixa que sobrepõe a palavra.
+   O PNG é recortado (fundo transparente), então aqui não entra moldura
+   nenhuma: nada de borda, cantos ou overflow. A sombra já vem desenhada
+   na própria imagem. */
+.caixa {
+  position: relative; z-index: 10;
+  width: min(34vw, 46vh);
+  will-change: transform;
+}
+.caixa img { width: 100%; height: auto; }
+
+@media (max-width: 780px) {
+  .caixa { width: min(78vw, 42vh); }
+
+  /* No celular as duas variantes viram a de duas linhas: numa tela estreita a
+     palavra em linha única cabe inteira atrás da caixa — não sobra nada para
+     sobrepor. Em duas linhas, WONDER cruza a borda de cima da caixa e FIX a
+     de baixo, que é o efeito que se quer ver. */
+  /* o padding é o que faz as duas linhas encostarem na caixa: menos que isso
+     e sobra um vão entre a palavra e o papelão, some a sobreposição */
+  [data-layout] .palavra          { font-size: 30vw; justify-content: space-between; padding: 25vh 0; }
+  [data-layout] .palavra__2       { display: block; }
+  [data-layout] .palavra__1::after { content: "WONDER"; }
+  [data-layout] .palavra__2::after { content: "FIX"; }
+}
+
+/* Frase que aparece no fim do scroll, quando o papelão já tomou o centro da
+   tela. Por isso ela é navy e não branca: o fundo dela é papelão claro. */
+.frase {
+  position: absolute; z-index: 20;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 34ch);
+  text-align: center;
+  color: var(--navy);
+  font-family: var(--f-display);
+  font-weight: 800; font-stretch: 90%;
+  font-size: clamp(1.6rem, 3.6vw, 3rem);
+  line-height: 1.05; letter-spacing: -.02em;
+  text-transform: uppercase;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* ── DEPOIS DO PALCO ─────────────────────────────────────────── */
+.depois {
+  min-height: 60vh;
+  display: grid; place-items: center; align-content: center; gap: 1rem;
+  padding: clamp(3rem, 10vw, 8rem) 1.5rem;
+  text-align: center;
+}
+.depois h2 {
+  font-family: var(--f-display); font-weight: 800; font-stretch: 88%;
+  font-size: clamp(1.8rem, 5vw, 3.5rem); letter-spacing: -.03em; line-height: 1;
+  text-transform: uppercase;
+}
+.depois p { max-width: 46ch; opacity: .7; line-height: 1.6; }
+
+/* ── PAINEL DE TESTE (só existe nesta página) ────────────────── */
+.painel {
+  position: fixed; z-index: 60; right: 1rem; bottom: 1rem;
+  display: flex; gap: .4rem; padding: .4rem;
+  background: rgba(120, 120, 130, .18);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(150, 150, 160, .3);
+  border-radius: 100px;
+  font-size: .78rem;
+}
+.painel button {
+  font: inherit; color: inherit; cursor: pointer;
+  padding: .45rem .85rem; border: 0; border-radius: 100px;
+  background: rgba(150, 150, 160, .25);
+}
+.painel button:hover { background: rgba(150, 150, 160, .45); }
+
+/* Quem pediu menos animação recebe o quadro final, parado. */
+@media (prefers-reduced-motion: reduce) {
+  .trilho { height: 100vh; }
+  .frase  { opacity: 1; }
+}
+</style>
+</head>
+
+<body data-layout="1" data-tema="claro">
+
+<nav class="nav">
+  <span class="nav__marca">WONDER FIX</span>
+  <span class="nav__links">
+    <span>Produtos</span><span>Personalização</span><span>Fábrica</span><span>Sobre</span>
+  </span>
+  <span class="nav__cta">Orçamento</span>
+</nav>
+
+<div class="trilho">
+  <section class="palco">
+    <div class="palavra">
+      <span class="palavra__1"></span>
+      <span class="palavra__2"></span>
+    </div>
+
+    <figure class="caixa">
+      <!-- Recorte gerado a partir de images/caixa-papelão-centro.png: o
+           original vinha com o xadrez de "fundo transparente" pintado nos
+           pixels, sem canal alpha nenhum — aparecia igual na tela. -->
+      <img src="images/caixa-papelao-recorte.png"
+           alt="Caixa de papelão kraft fechada" />
+    </figure>
+
+    <p class="frase">Sua marca<br />no lacre e na caixa.</p>
+  </section>
+</div>
+
+<section class="depois">
+  <h2>Aqui continuaria o site</h2>
+  <p>Esta página é só o teste do hero. O site que está no ar não foi alterado.</p>
+</section>
+
+<div class="painel">
+  <button type="button" data-acao="layout">1 linha / 2 linhas</button>
+  <button type="button" data-acao="tema">Claro / escuro</button>
+</div>
+
+<script>
+const trilho  = document.querySelector('.trilho');
+const palavra = document.querySelector('.palavra');
+const caixa   = document.querySelector('.caixa');
+const frase   = document.querySelector('.frase');
+
+const menosMovimento = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const faixa = (v, a, b) => clamp((v - a) / (b - a), 0, 1);   // recorta um trecho do progresso
+const suave = t => t * t * (3 - 2 * t);                       // smoothstep
+
+/* Até onde a caixa cresce. Como o PNG é recortado, quem cresce é a imagem
+   inteira via transform — nada de mexer em width/height, que forçaria layout
+   a cada frame. O alvo é a caixa passar um pouco da altura da tela. */
+let escalaFinal = 2;
+
+function medirCaixa() {
+  /* a altura vem da imagem, então antes de ela carregar isto mede zero —
+     por isso o listener de load lá embaixo remede */
+  const h = caixa.getBoundingClientRect().height / (parseFloat(caixa.dataset.escala) || 1);
+  if (h > 0) escalaFinal = clamp(innerHeight * 1.12 / h, 1.5, 3.2);
+}
+
+const foto = caixa.querySelector('img');
+if (!foto.complete) foto.addEventListener('load', medirCaixa, { once: true });
+
+function aplicar(escala) {
+  caixa.dataset.escala = escala;
+  caixa.style.transform = `scale(${escala})`;
+}
+
+if (menosMovimento) {
+  /* Sem animação: mostra direto o quadro final. */
+  medirCaixa();
+  aplicar(escalaFinal);
+  frase.style.opacity = 1;
+} else {
+  /* progresso real (alvo) x progresso desenhado (atual).
+     O lerp entre os dois é o que dá o scroll "com peso" da referência, sem
+     precisar de biblioteca. */
+  let alvo = 0, atual = 0;
+
+  function medir() {
+    const curso = trilho.offsetHeight - innerHeight;
+    alvo = curso > 0 ? clamp(-trilho.getBoundingClientRect().top / curso, 0, 1) : 0;
+  }
+
+  medirCaixa();
+  medir();
+  addEventListener('scroll', medir, { passive: true });
+  addEventListener('resize', () => { medirCaixa(); medir(); });
+
+  (function laco() {
+    atual += (alvo - atual) * 0.12;
+    const p = atual;
+
+    /* 1. a caixa vem crescendo até dominar a tela */
+    const abre = suave(faixa(p, 0, 0.8));
+    aplicar(1 + (escalaFinal - 1) * abre);
+
+    /* 2. a palavra cresce junto e clareia — é o que dá profundidade */
+    const sobe = suave(faixa(p, 0, 0.85));
+    palavra.style.transform = `scale(${1 + 0.3 * sobe}) translateY(${-4 * sobe}vh)`;
+    palavra.style.opacity   = 1 - 0.55 * sobe;
+
+    /* 3. a frase entra só no fim, quando o papelão já é o fundo dela */
+    const entra = suave(faixa(p, 0.6, 0.95));
+    frase.style.opacity   = entra;
+    frase.style.transform = `translate(-50%, -50%) translateY(${24 * (1 - entra)}px)`;
+
+    requestAnimationFrame(laco);
+  })();
+}
+
+/* ── painel de teste ─────────────────────────────────────────── */
+document.querySelector('.painel').addEventListener('click', e => {
+  const acao = e.target.dataset.acao;
+  const b = document.body;
+  if (acao === 'layout') {
+    b.dataset.layout = b.dataset.layout === '1' ? '2' : '1';
+  }
+  if (acao === 'tema') {
+    b.dataset.tema = b.dataset.tema === 'claro' ? 'escuro' : 'claro';
+    document.documentElement.dataset.tema = b.dataset.tema;
+  }
+});
+</script>
+</body>
+</html>

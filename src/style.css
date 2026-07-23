@@ -240,7 +240,20 @@ em {
 
 .btn--solid { --b: var(--kraft); background: var(--kraft); color: var(--navy-deep); }
 .btn--solid::before { background: var(--paper); }
-.btn--nav { padding: .75rem 1.15rem; font-size: .75rem; }
+/* Na pílula da nav o botão é o fecho da direita: sólido kraft, redondo,
+   quase encostado na borda interna — como o "botão dentro do trilho". */
+.btn--nav {
+  --b: var(--kraft);
+  padding: .8rem 1.5rem;
+  font-size: .75rem;
+  border-radius: 999px;
+  background: var(--kraft);
+  color: var(--navy-deep);
+}
+.btn--nav::before { background: var(--paper); }
+@media (hover: hover) {
+  .btn--nav:hover { color: var(--navy-deep); }
+}
 .btn--ghost { border-color: color-mix(in srgb, var(--paper) 30%, transparent); }
 .btn--full { width: 100%; grid-column: 1 / -1; }
 
@@ -276,26 +289,38 @@ em {
   background: var(--kraft);
 }
 
-/* ── NAV ────────────────────────────────────────────────────── */
+/* ── NAV ────────────────────────────────────────────────────────
+   Barra em pílula flutuante: descolada das bordas, cantos totalmente
+   redondos, fundo navy translúcido com contorno fino. A pílula existe
+   desde o topo (não só no scroll) — é um objeto sobre a página, não
+   uma faixa colada nela.                                            */
 .nav {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: max(.9rem, env(safe-area-inset-top));
+  /* Centralizada por margem, não por translateX: o GSAP anima a entrada da
+     nav com transform (main.js) e sobrescreveria o deslocamento de -50%. */
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: min(calc(100% - 2 * clamp(.9rem, 3vw, 2.5rem)), 1240px);
   z-index: 900;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  padding: 1.1rem var(--pad);
-  transition: background .5s var(--ease), padding .5s var(--ease);
+  padding: .55rem .65rem .55rem 1.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--navy-deep) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  box-shadow: 0 12px 32px -16px rgba(4, 9, 20, .6);
+  transition: background .5s var(--ease), border-color .5s var(--ease);
 }
 .nav.is-stuck {
-  /* Sem backdrop-filter: ele obriga o navegador a reamostrar tudo que passa por
-     baixo da barra a cada frame do scroll. Cor sólida com leve transparência dá
-     o mesmo resultado visual de graça. */
+  /* Sem backdrop-filter: ele obriga o navegador a reamostrar tudo que passa
+     por baixo a cada frame do scroll. Sobre conteúdo claro a pílula só
+     fica mais opaca, que resolve o contraste de graça. */
   background: color-mix(in srgb, var(--navy-deep) 96%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--paper) 8%, transparent);
-  padding-top: .75rem;
-  padding-bottom: .75rem;
+  border-color: color-mix(in srgb, var(--paper) 16%, transparent);
 }
 /* min-height 44: a logo é o link para o topo e precisa ser tocável como
    qualquer outro. A imagem dentro dela continua com 40px de altura. */
@@ -383,8 +408,9 @@ em {
   flex-direction: column;
   justify-content: safe center;
   gap: .25rem;
-  /* Topo livre para a barra da nav: sem isso o primeiro link nasce embaixo dela. */
-  padding: calc(4.5rem + env(safe-area-inset-top)) var(--pad)
+  /* Topo livre para a pílula flutuante (top .9rem + ~4rem de altura):
+     sem isso o primeiro link nasce embaixo dela. */
+  padding: calc(6rem + env(safe-area-inset-top)) var(--pad)
            calc(2rem + env(safe-area-inset-bottom));
   overflow-y: auto;
   overscroll-behavior: contain;  /* rolar o menu não arrasta a página atrás */
@@ -429,16 +455,6 @@ em {
   object-fit: cover;
 }
 
-/* Grade técnica sobre o vídeo — referência a planta de fábrica. */
-.hero__grid {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--paper) 4%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--paper) 4%, transparent) 1px, transparent 1px);
-  background-size: 80px 80px;
-}
 .hero__scrim {
   position: absolute;
   inset: 0;
@@ -449,59 +465,80 @@ em {
       color-mix(in srgb, var(--navy-deep) 45%, transparent) 35%,
       var(--navy-deep) 100%);
 }
-.hero__content { max-width: 1500px; }
-.hero__title { margin: clamp(.75rem, 1.5vh, 1.5rem) 0 clamp(1.5rem, 4vh, 4rem); max-width: 15ch; }
+/* O content estica na altura toda do hero e o título centra na sobra
+   (margin-block auto), em vez de ficar sentado em cima da régua — o
+   rodapé segue ancorado embaixo. */
+.hero__content {
+  max-width: 1500px;
+  margin-inline: auto;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+/* Título centrado na tela — sem o eyebrow acima, ele é a única voz do hero. */
+.hero__title {
+  margin: auto;
+  padding-bottom: clamp(1rem, 3vh, 2.5rem);
+  max-width: 15ch;
+  text-align: center;
+}
+/* O rodapé do hero é uma régua de bobina: em vez de um fio divisório
+   qualquer, a linha de cima tem os ticks de fita métrica — a régua que
+   mede o rolo na produção. Texto e CTAs se apoiam na mesma base. */
 .hero__foot {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
+  align-items: center;
   gap: 2.5rem;
-  border-top: 1px solid color-mix(in srgb, var(--paper) 14%, transparent);
-  padding-top: 1.8rem;
+  padding-top: 2rem;
+}
+.hero__foot::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 9px;
+  /* Fio contínuo + tick fino a cada 12px + tick alto a cada 96px. */
+  background:
+    linear-gradient(color-mix(in srgb, var(--paper) 22%, transparent) 1px, transparent 1px),
+    repeating-linear-gradient(90deg,
+      color-mix(in srgb, var(--paper) 20%, transparent) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(90deg,
+      color-mix(in srgb, var(--kraft) 75%, transparent) 0 1px, transparent 1px 96px);
+  background-size: 100% 100%, 100% 5px, 100% 9px;
+  background-repeat: no-repeat;
 }
 .hero__lead {
   max-width: 62ch;
   color: color-mix(in srgb, var(--paper) 76%, transparent);
 }
-/* Dupla de CTAs no meio-direito do hero (WhatsApp + orçamento). */
+/* CTAs na coluna direita da régua: orçamento como botão sólido (padrão do
+   site), WhatsApp como link de texto — o verde fica só no ícone. */
 .hero__cta {
-  position: absolute;
-  right: var(--pad);
-  top: 44%;
-  transform: translateY(-50%);
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .9rem;
 }
-.btn--wa {
+/* CTA do hero: o verde padrão do WhatsApp, com texto escuro pra contraste.
+   Hover preenche com um verde mais fechado e o texto clareia. */
+.btn--cta {
   --b: #25d366;
-  background: #25d366;
-  border-color: #25d366;
-  color: #fff;
   border-radius: 14px;
   padding: 1.05rem 1.8rem;
+  background: #25d366;
+  border-color: #25d366;
+  color: var(--navy-deep);
 }
-.btn--wa::before { background: #1ebe5b; }
+.btn--cta::before { background: #1ebe5b; }
 @media (hover: hover) {
-  .btn--wa:hover { color: #fff; }
+  .btn--cta:hover { color: var(--navy-deep); }
 }
-.btn__waicon { width: 1.35em; height: 1.35em; position: relative; z-index: 1; }
-.btn--cta { border-radius: 14px; padding: 1.05rem 1.8rem; }
-/* Entre 981 e 1450px o título chega perto da borda direita: os dois botões
-   lado a lado invadiriam o texto. Empilhados, cabem no espaço que sobra. */
-@media (min-width: 981px) and (max-width: 1450px) {
-  .hero__cta { flex-direction: column; align-items: flex-end; gap: .8rem; }
-}
-/* Hover do fantasma: só um véu translúcido, texto continua branco. */
-.btn--cta::before { background: color-mix(in srgb, var(--paper) 14%, transparent); }
-@media (hover: hover) {
-  .btn--cta:hover {
-    color: var(--paper);
-    border-color: color-mix(in srgb, var(--paper) 60%, transparent);
-  }
-}
+.btn__waicon { width: 1.25em; height: 1.25em; color: #25d366; flex: none; }
+/* Dentro do botão sólido o ícone segue a cor do texto (navy sobre kraft)
+   e sobe acima do preenchimento que anima no hover. */
+.btn--solid .btn__waicon { color: currentColor; position: relative; z-index: 1; width: 1.45em; height: 1.45em; }
 
 /* ── NÚMEROS ────────────────────────────────────────────────── */
 .stats {
@@ -990,29 +1027,43 @@ em {
 }
 
 /* ── CAIXAS PERSONALIZADAS ─────────────────────────────────────
-   Mesma gramática da seção Empresa (claim → texto+selo → trilho
-   numerado): não é um componente novo, é o padrão do site aplicado
-   ao produto que mais vende. Fecha com a foto de aplicações + CTA.  */
+   A seção é a FICHA TÉCNICA da caixa, presa no mural da produção:
+   fundo kraft com a ondulação do miolo do papelão, foto colada com
+   fita adesiva (produto da casa), carimbo de aprovação e os quatro
+   pontos em romaneio — linhas de ficha separadas por vinco
+   tracejado, não o grid de colunas que o resto do site já usa.     */
 .boxes {
   padding: clamp(5rem, 11vw, 10rem) var(--pad) clamp(4.5rem, 9vw, 8rem);
-  background: var(--navy-deep);
-  border-top: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
+  /* Papel kraft claro, não o off-white das outras seções claras — é a
+     seção do papelão, ela tem que ter cor de papelão. A ondulação
+     vertical é o miolo da chapa visto de perto: um fio de sombra a
+     cada 14px, fraco o bastante pra não brigar com o texto. */
+  /* O shorthand mataria o grão aplicado pela regra global — ele entra
+     aqui como primeira camada da pilha. */
+  background:
+    var(--grain),
+    repeating-linear-gradient(90deg,
+      transparent 0 13px,
+      color-mix(in srgb, var(--kraft) 14%, transparent) 13px 14px),
+    linear-gradient(color-mix(in srgb, var(--kraft) 16%, var(--paper)),
+                    color-mix(in srgb, var(--kraft) 22%, var(--paper)));
+  color: var(--ink);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
 }
+.boxes .eyebrow { color: color-mix(in srgb, var(--ink) 55%, transparent); }
 .boxes .section__head { padding: 0 0 clamp(2rem, 4vw, 3.5rem); }
 .boxes__claim { max-width: 22ch; }
 
 .boxes__story {
   padding-top: clamp(2.5rem, 5vw, 4rem);
-  border-top: 1px solid color-mix(in srgb, var(--kraft) 45%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--kraft) 55%, transparent);
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr);
   gap: clamp(2rem, 6vw, 6rem);
   align-items: start;
 }
 .boxes__text { display: grid; gap: 1.6rem; max-width: 58ch; align-self: center; }
-/* A primeira frase é a chamada — vai pra fonte de título (a mesma do h2 e dos
-   pilares), não pro Inter genérico de parágrafo. É o que separa "texto grande"
-   de "texto com desenho". A segunda fica como legenda de apoio, mais quieta. */
 .boxes__text p:first-child {
   font-family: var(--f-display);
   font-weight: 600;
@@ -1020,34 +1071,87 @@ em {
   font-size: clamp(1.35rem, 2.3vw, 1.9rem);
   line-height: 1.32;
   letter-spacing: -.01em;
-  color: var(--paper);
+  color: var(--navy-deep);
 }
 .boxes__text p:last-child {
   font-size: .95rem;
   line-height: 1.75;
   max-width: 50ch;
-  color: color-mix(in srgb, var(--paper) 60%, transparent);
+  color: color-mix(in srgb, var(--ink) 65%, transparent);
 }
 
-/* O "selo": mesma ideia do about__sign, mas com a foto do produto no
-   lugar da logo — a caixa é a assinatura, aqui. */
+/* A foto do produto entra como polaroid de fábrica: papel branco em volta,
+   levemente torta, presa por duas tiras de fita adesiva translúcida — a
+   mesma fita que sai da linha de produção deles. */
 .boxes__sign {
+  position: relative;
   display: grid;
   gap: 1.1rem;
   justify-items: start;
   justify-self: end;
-  width: min(100%, 320px);
-  padding-left: clamp(0rem, 2vw, 2rem);
-  border-left: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  width: min(100%, 340px);
+  transform: rotate(1.6deg);
 }
 .boxes__frame {
   width: 100%;
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  border-radius: 10px;
-  background: var(--navy);
+  background: #fff;
+  padding: 10px 10px 0;
+  box-shadow:
+    0 1px 2px rgba(11, 18, 32, .12),
+    0 14px 32px -12px rgba(11, 18, 32, .35);
 }
 .boxes__frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Tiras de fita: kraft translúcido com as bordas "rasgadas" por um recorte
+   irregular. Ficam FORA do .boxes__frame porque ele é clipado pelo GSAP. */
+.boxes__tape {
+  position: absolute;
+  z-index: 2;
+  width: 108px;
+  height: 34px;
+  background: color-mix(in srgb, var(--kraft) 55%, transparent);
+  clip-path: polygon(2% 8%, 98% 0, 100% 46%, 97% 94%, 3% 100%, 0 55%);
+  box-shadow: 0 1px 3px rgba(11, 18, 32, .18);
+  pointer-events: none;
+}
+.boxes__tape--tl { top: -14px; left: -30px; transform: rotate(-38deg); }
+/* Ancorada em % do topo da figura, não na base: a base inclui a legenda,
+   cuja altura muda quando o texto quebra. */
+.boxes__tape--br { top: 76%; right: -34px; transform: rotate(-42deg); }
+
+/* Carimbo de conferência, torto e vazado como carimbo de verdade. */
+.boxes__stamp {
+  position: absolute;
+  z-index: 2;
+  right: -6px;
+  top: 62%;
+  display: grid;
+  justify-items: center;
+  gap: .05rem;
+  padding: .5rem .9rem .55rem;
+  border: 2px solid var(--blue);
+  border-radius: 4px;
+  transform: rotate(-8deg);
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  font-size: .78rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue);
+  opacity: .82;
+  /* Falha de tinta do carimbo: a máscara come uns pedaços da borda. */
+  mask-image: radial-gradient(ellipse 120% 100% at 42% 55%, #000 62%, rgba(0,0,0,.55) 78%, rgba(0,0,0,.85) 100%);
+  pointer-events: none;
+}
+.boxes__stamp i {
+  font-style: normal;
+  font-weight: 700;
+  font-size: .58rem;
+  letter-spacing: .2em;
+}
 .boxes__sign figcaption { display: grid; gap: .35rem; }
 .boxes__sign b {
   font-family: var(--f-display);
@@ -1056,61 +1160,76 @@ em {
   font-size: .9rem;
   letter-spacing: .01em;
 }
-.boxes__sign span {
+.boxes__sign figcaption span {
   font-size: .78rem;
   line-height: 1.45;
-  color: color-mix(in srgb, var(--paper) 50%, transparent);
+  color: color-mix(in srgb, var(--ink) 55%, transparent);
 }
 
-/* Trilho de quatro: mesmo gesto do about__pillars — o filete kraft corre no
-   topo no hover, o mesmo movimento da fita sendo puxada. */
+/* Cabeçalho do romaneio: título de ficha + legenda de faca (corte/vinco),
+   como no desenho técnico que acompanha a chapa. */
+.boxes__fichahead {
+  margin-top: clamp(3rem, 7vw, 6rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: .7rem;
+  border-bottom: 2px solid var(--ink);
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 85%;
+  font-size: .74rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+}
+.boxes__legenda { display: inline-flex; align-items: center; gap: .45rem; }
+.boxes__legenda i { display: inline-block; width: 26px; border-top: 2px solid currentColor; }
+.boxes__legenda i.vinco { border-top-style: dashed; }
+
+/* Romaneio: cada ponto é uma LINHA da ficha — nº | título | descrição —
+   separada por vinco tracejado. No hover a linha "entra na régua": desliza
+   um fio pra direita e o número pinta de kraft, gesto de conferência. */
 .boxes__pillars {
   list-style: none;
-  margin-top: clamp(3rem, 7vw, 6rem);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(1.5rem, 3vw, 2.5rem);
 }
 .boxes__pillars li {
-  position: relative;
   display: grid;
-  gap: .7rem;
-  align-content: start;
-  padding-top: 1.6rem;
-  border-top: 1px solid color-mix(in srgb, var(--paper) 18%, transparent);
-}
-.boxes__pillars li::before {
-  content: "";
-  position: absolute;
-  inset: -1px 0 auto 0;
-  height: 1px;
-  background: var(--kraft);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .6s var(--ease);
+  grid-template-columns: 3.5rem minmax(0, .9fr) minmax(0, 1.1fr);
+  column-gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: baseline;
+  padding-block: clamp(1.1rem, 2vw, 1.5rem);
+  border-bottom: 1px dashed color-mix(in srgb, var(--ink) 35%, transparent);
+  transition: transform .45s var(--ease);
 }
 @media (hover: hover) {
-  .boxes__pillars li:hover::before { transform: scaleX(1); }
+  .boxes__pillars li:hover { transform: translateX(.6rem); }
+  .boxes__pillars li:hover .boxes__pn { color: var(--kraft); }
 }
 .boxes__pn {
   font-family: var(--f-display);
   font-weight: 800;
-  font-size: .75rem;
+  font-size: .78rem;
   letter-spacing: .06em;
-  color: var(--kraft);
+  color: color-mix(in srgb, var(--ink) 45%, transparent);
+  transition: color .45s var(--ease);
 }
 .boxes__pillars h3 {
   font-family: var(--f-display);
   font-weight: 700;
   font-stretch: 88%;
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-size: clamp(1.05rem, 1.7vw, 1.35rem);
   letter-spacing: -.01em;
+  text-wrap: balance;
 }
 .boxes__pillars p {
   font-size: .84rem;
   line-height: 1.55;
-  max-width: 30ch;
-  color: color-mix(in srgb, var(--paper) 55%, transparent);
+  max-width: 52ch;
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
 }
 
 /* Fecho: a foto das aplicações reais ao lado do CTA — prova e pedido lado a
@@ -1125,16 +1244,16 @@ em {
 .boxes__proof {
   overflow: hidden;
   border-radius: 14px;
-  background: var(--navy);
-  border: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  background: var(--paper-warm);
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
 }
 .boxes__proof img { width: 100%; height: 220px; object-fit: cover; display: block; }
 .boxes__proof figcaption {
   padding: 1.1rem clamp(1.25rem, 2.5vw, 2rem);
   font-size: .84rem;
   line-height: 1.6;
-  color: color-mix(in srgb, var(--paper) 72%, transparent);
-  border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  color: color-mix(in srgb, var(--ink) 72%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
 }
 .boxes__foot .btn {
   justify-self: stretch;
@@ -1146,24 +1265,25 @@ em {
 
 @media (max-width: 860px) {
   .boxes__story { grid-template-columns: 1fr; }
+  /* No empilhado a polaroid centraliza e mantém a inclinação — é ela que
+     segura o clima de mural quando o grid vira coluna. */
   .boxes__sign {
-    justify-self: start;
-    padding-left: 0;
-    border-left: 0;
-    padding-top: 1.8rem;
-    border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
-    width: 100%;
+    justify-self: center;
+    width: min(100%, 320px);
+    margin-top: 1.5rem;
   }
-  .boxes__pillars { grid-template-columns: 1fr; gap: 0; }
-  .boxes__pillars li { padding-block: 1.5rem; }
+  /* Fita e carimbo estouram a lateral no mobile estreito — encolhem e
+     entram pra dentro em vez de sumir. */
+  .boxes__tape--tl { left: -14px; }
+  .boxes__tape--br { right: -16px; }
+  .boxes__stamp { right: 4px; }
+  /* A linha do romaneio vira bloco: nº e título na mesma linha, texto abaixo. */
+  .boxes__pillars li {
+    grid-template-columns: 3rem minmax(0, 1fr);
+    row-gap: .5rem;
+  }
+  .boxes__pillars p { grid-column: 2; }
   .boxes__foot { grid-template-columns: 1fr; }
-}
-@media (min-width: 601px) and (max-width: 980px) {
-  .boxes__pillars {
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 5vw, 3rem);
-  }
-  .boxes__pillars li:nth-child(-n+2) { padding-top: 1.6rem; }
 }
 
 /* ── DEPOIMENTO ─────────────────────────────────────────────── */
@@ -1387,13 +1507,8 @@ em {
   .nav__links, .btn--nav { display: none; }
   .nav__burger { display: flex; }
   .hero__foot { grid-template-columns: 1fr; align-items: start; }
-  /* No celular os CTAs saem da lateral e entram no fluxo, abaixo do texto. */
-  .hero__cta {
-    position: static;
-    transform: none;
-    justify-content: flex-start;
-    margin-top: 1.5rem;
-  }
+  /* Empilhado, o botão ocupa a largura toda. */
+  .hero__cta { width: 100%; align-items: stretch; }
   .stats { grid-template-columns: 1fr 1fr; }
   .stat:nth-child(2n) { border-right: 0; }
   .stat:nth-child(-n+2) { border-bottom: 1px solid color-mix(in srgb, var(--paper) 10%, transparent); }
@@ -1458,7 +1573,6 @@ em {
     max-width: 22ch;
   }
   .hero__foot { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
-  .hero__cta { position: static; transform: none; justify-content: flex-start; margin-top: 1.25rem; }
   .section__head { padding-top: clamp(3rem, 8vh, 5rem); }
 
   /* Deitado o notch fica na lateral: --pad passa a respeitar a área segura,
