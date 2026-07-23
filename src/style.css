@@ -1232,36 +1232,55 @@ em {
   color: color-mix(in srgb, var(--ink) 60%, transparent);
 }
 
-/* Fecho: a foto das aplicações reais ao lado do CTA — prova e pedido lado a
-   lado, sem disputar a atenção com o trilho acima. */
+/* Fecho: a foto das aplicações reais ao lado do texto e do CTA.
+   A foto fica INTEIRA (proporção nativa 1200x760): já houve duas rodadas de
+   faixa/banner recortado aqui e nenhuma agradou — não voltar a esticar. */
 .boxes__foot {
   margin-top: clamp(3rem, 7vw, 6rem);
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, .4fr);
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: clamp(1.75rem, 4vw, 3.5rem);
+  align-items: center;
 }
 .boxes__proof {
   overflow: hidden;
   border-radius: 14px;
-  background: var(--paper-warm);
   border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
 }
-.boxes__proof img { width: 100%; height: 220px; object-fit: cover; display: block; }
-.boxes__proof figcaption {
-  padding: 1.1rem clamp(1.25rem, 2.5vw, 2rem);
-  font-size: .84rem;
-  line-height: 1.6;
-  color: color-mix(in srgb, var(--ink) 72%, transparent);
-  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+.boxes__proof img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 760;
+  object-fit: cover;
+  display: block;
 }
-.boxes__foot .btn {
-  justify-self: stretch;
-  align-self: stretch;
+.boxes__order {
   display: grid;
-  place-items: center;
+  gap: 1.75rem;
+  justify-items: center;
   text-align: center;
 }
+.boxes__order p {
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.65;
+  max-width: 44ch;
+  color: color-mix(in srgb, var(--ink) 72%, transparent);
+}
+/* O botão "preso com fita": reusa as tiras kraft da polaroid (.boxes__tape),
+   uma em cada ponta, cruzando as quinas como fita colada à mão. O envoltório
+   é quem posiciona — as tiras não podem viver dentro do .btn (clipado). */
+.boxes__cta {
+  position: relative;
+  display: inline-block;
+  /* folga para as pontas da fita não serem cortadas por overflow de ancestral */
+  padding: 10px 14px;
+}
+.boxes__cta .boxes__tape {
+  width: 88px;
+  height: 26px;
+}
+.boxes__tape--btn-l { top: 2px; left: -22px; transform: rotate(-38deg); }
+.boxes__tape--btn-r { bottom: 2px; right: -22px; transform: rotate(-38deg); }
 
 @media (max-width: 860px) {
   .boxes__story { grid-template-columns: 1fr; }

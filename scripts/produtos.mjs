@@ -89,6 +89,29 @@ await webp(sharp("images/fita-crepe.jpg"), "fita-crepe", 1200, 900);
    limpos. Se um dia esta foto for trocada, confira o miolo dos rolos antes. */
 await webp(sharp("images/fita-adesiva-marrom.png"), "fita-marrom", 1200, 900);
 
+/* ── Cards 09-12 · fotos enviadas pelo cliente (jul/2026) ────────────────────
+   As três primeiras são quadradas (736x736) com o produto centrado e fundo
+   liso: o corte central para 4:3 apara só a folga de cima e de baixo, sem
+   tocar nos rolos. Nascem menores que 1200x900, então sobem por interpolação
+   (mesmo caso do plástico bolha) — funciona, mas foto maior seria melhor.  */
+
+/* 09 · Fita isolante — cinco rolos pretos enfileirados, fundo branco. */
+await webp(sharp("images/Fita isolante.jpg"), "fita-isolante", 1200, 900);
+
+/* 10 · Filme stretch — dois rolos, foto retrato 1123x1400 em fundo cinza.
+   O corte central para 4:3 apara ~280px em cima e embaixo; os rolos ficam
+   inteiros no quadro (só a folga do fundo sai). */
+await webp(sharp("images/fita-stretch.jpeg"), "filme-stretch", 1200, 900);
+
+/* ⚠ 11 · Fita dupla-face VHB — close do rolo verde. A fita traz impresso o
+   texto "3M VHB" no liner (marca do FABRICANTE, visível de leve na foto).
+   Diferente do caso adhesivetape, aqui é a marca do produto vendido, não o
+   contato de um concorrente — mas se a fábrica não revender 3M, trocar a foto. */
+await webp(sharp("images/Fita Dupla-Face VHB.jpg"), "fita-dupla-face-vhb", 1200, 900);
+
+/* 12 · Papel kraft — dois rolos, um em pé e um deitado, fundo branco. */
+await webp(sharp("images/Papel kraft.jpg"), "papel-kraft", 1200, 900);
+
 /* images/fitas_adesivas-todo-tipo.jpg não é mais usada: o card do banner largo
    foi removido. */
 
