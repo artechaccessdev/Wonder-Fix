@@ -1233,7 +1233,7 @@ em {
 }
 
 /* Fecho: a foto das aplicações reais ao lado do texto e do CTA.
-   A foto fica INTEIRA (proporção nativa 1200x760): já houve duas rodadas de
+   A foto fica INTEIRA, na proporção nativa: já houve duas rodadas de
    faixa/banner recortado aqui e nenhuma agradou — não voltar a esticar. */
 .boxes__foot {
   margin-top: clamp(3rem, 7vw, 6rem);
@@ -1250,7 +1250,8 @@ em {
 .boxes__proof img {
   width: 100%;
   height: auto;
-  aspect-ratio: 1200 / 760;
+  /* proporção nativa de caixa-salgado-pizza.webp (1600x766) */
+  aspect-ratio: 1600 / 766;
   object-fit: cover;
   display: block;
 }
