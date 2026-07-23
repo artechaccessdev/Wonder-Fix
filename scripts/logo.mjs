@@ -78,8 +78,8 @@ await sharp({
 
    Duas regras, e o que decide qual usar é a POSIÇÃO, não a cor:
 
-   · No SÍMBOLO, o contorno escuro vira papel e o azul da fita do "F" é clareado.
-     O kraft das caixas fica intacto: é ele que segura a identidade.
+   · No SÍMBOLO, o contorno escuro fica na cor original (preto/navy) e o azul
+     da fita do "F" é clareado. O kraft das caixas fica intacto.
 
    · No WORDMARK e no SLOGAN, tudo vira papel, sem exceção.
 
@@ -105,14 +105,10 @@ function recolorir(data, { width, height, channels }, simbolo = null) {
     const y = Math.floor(i / width);
     const noSimbolo = !simbolo || (y >= simbolo[0] && y < simbolo[1]);
 
-    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
     const isBlue = b - r > 35;
 
     if (!noSimbolo) {
       // tipografia: contraste cheio, é o que se lê
-      [data[o], data[o + 1], data[o + 2]] = PAPER;
-    } else if (lum < 85 && !isBlue) {
-      // contorno escuro → papel
       [data[o], data[o + 1], data[o + 2]] = PAPER;
     } else if (isBlue) {
       // azul → mais claro, para destacar do fundo navy
